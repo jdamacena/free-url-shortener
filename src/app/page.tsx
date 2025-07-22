@@ -7,6 +7,7 @@ import Cta from "@/components/Cta";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import heroBg from "@/assets/hero-bg.jpg";
+import { ToastButton } from "@/components/ToastButton";
 
 export default function Page() {
   return (
@@ -14,6 +15,7 @@ export default function Page() {
       <Header />
       
       {/* Hero Section */}
+      <ToastButton />
       <section className="relative pt-28 pb-20 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-10">
           <Image 
