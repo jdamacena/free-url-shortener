@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Main colors */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    
+    /* Brand colors */
+    --primary: 256 100% 65%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 256 100% 95%;
+    
+    /* Secondary colors */
+    --secondary: 190 100% 60%;
+    --secondary-foreground: 0 0% 100%;
+    
+    /* Accent colors */
+    --accent: 326 100% 65%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(256 100% 65%), hsl(326 100% 65%));
+    --gradient-hover: linear-gradient(135deg, hsl(256 100% 70%), hsl(326 100% 70%));
+    
+    /* UI elements */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 47%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 256 100% 65%;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-glow: 0 0 20px rgba(149, 76, 233, 0.3);
+    
+    /* Border radius */
+    --radius: 0.5rem;
+
+    /* Sidebar (keeping original) */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Main colors */
+    --background: 222 20% 8%;
+    --foreground: 210 40% 98%;
+    
+    /* Brand colors */
+    --primary: 256 80% 70%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 256 50% 25%;
+    
+    /* Secondary colors */
+    --secondary: 190 80% 40%;
+    --secondary-foreground: 0 0% 100%;
+    
+    /* Accent colors */
+    --accent: 326 80% 60%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(256 80% 70%), hsl(326 80% 60%));
+    --gradient-hover: linear-gradient(135deg, hsl(256 80% 75%), hsl(326 80% 65%));
+    
+    /* UI elements */
+    --card: 222 20% 12%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 20% 12%;
+    --popover-foreground: 210 40% 98%;
+    --muted: 217 20% 18%;
+    --muted-foreground: 215 20% 65%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 20% 18%;
+    --input: 217 20% 18%;
+    --ring: 256 80% 70%;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --shadow-glow: 0 0 20px rgba(149, 76, 233, 0.4);
+    
+    /* Sidebar */
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+  
+  .gradient-bg {
+    background-image: var(--gradient-primary);
+  }
+  
+  .gradient-bg-hover:hover {
+    background-image: var(--gradient-hover);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .transition-all {
+    transition: all 0.3s ease;
+  }
+}
