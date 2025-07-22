@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,7 +19,7 @@ export default function UrlShortener() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!url) {
@@ -38,23 +40,39 @@ export default function UrlShortener() {
       return;
     }
 
-    // Mock URL shortening for demonstration
+    // Call the API to shorten the URL
     setIsLoading(true);
     
-    // Simulating API call with a timeout
-    setTimeout(() => {
-      // Generate a mock short URL (in a real app, this would come from a backend)
-      const mockShortId = Math.random().toString(36).substring(2, 8);
-      const mockShortUrl = `https://linksnip.com/${mockShortId}`;
-      
-      setShortUrl(mockShortUrl);
-      setIsLoading(false);
+    try {
+      const response = await fetch('/api/shorten', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to shorten URL');
+      }
+
+      setShortUrl(data.shortUrl);
       
       toast({
         title: "URL shortened successfully!",
         description: "Your short link is ready to share",
       });
-    }, 1000);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to shorten URL",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCopy = () => {

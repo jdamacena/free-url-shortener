@@ -5,9 +5,10 @@ import Features from "@/components/Features";
 import Benefits from "@/components/Benefits";
 import Cta from "@/components/Cta";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 import heroBg from "@/assets/hero-bg.jpg";
 
-const Index = () => {
+export default function Page() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -15,10 +16,11 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative pt-28 pb-20 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-10">
-          <img 
+          <Image 
             src={heroBg} 
             alt="Background" 
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
         <div className="container mx-auto px-4 relative z-1">
@@ -62,6 +64,4 @@ const Index = () => {
       <Footer />
     </div>
   );
-};
-
-export default Index;
+}

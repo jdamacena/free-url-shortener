@@ -1,4 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import logo from "@/assets/logo.png";
 import { useState } from "react";
 
@@ -9,7 +12,7 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <a href="/" className="flex items-center gap-2">
-          <img src={logo} alt="LinkSnip Logo" className="h-10 w-auto" />
+          <Image src={logo} alt="LinkSnip Logo" className="h-10 w-auto" />
           <span className="font-bold text-xl gradient-text">LinkSnip</span>
         </a>
         
