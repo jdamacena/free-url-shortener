@@ -2,10 +2,11 @@ import { getDb } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
 interface RedirectPageProps {
-  params: { shortUrl: string };
+  params: Promise<{ shortUrl: string }>;
 }
 
-export default async function RedirectPage({ params: { shortUrl } }: RedirectPageProps) {
+export default async function RedirectPage({ params }: RedirectPageProps) {
+  const { shortUrl } = await params;
   const db = await getDb();
 
   // Validate that the shortUrl param is a valid ObjectId
