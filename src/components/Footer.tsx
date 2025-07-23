@@ -1,4 +1,5 @@
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import Image from "next/image";
 import logo from "@/assets/logo.png";
 
 export default function Footer() {
@@ -10,7 +11,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src={logo} alt="LinkSnip Logo" className="h-8 w-auto" />
+              <Image src={logo} alt="LinkSnip Logo" width={32} height={32} className="h-8 w-auto" />
               <span className="font-bold text-lg gradient-text">LinkSnip</span>
             </div>
             <p className="text-muted-foreground text-sm mb-4">
