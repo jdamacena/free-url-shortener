@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getDb } from "@/lib/mongodb";
 
 export async function POST(request: NextRequest) {
     try {
@@ -23,6 +24,13 @@ export async function POST(request: NextRequest) {
 
         // Generate a mock short ID (in a real app, this would be stored in a database)
         const shortId = Math.random().toString(36).substring(2, 8);
+        // Save mapping to MongoDB
+        const db = await getDb();
+        await db.collection("urls").insertOne({
+            originalUrl: url,
+            shortId,
+            createdAt: new Date(),
+        });
         const shortUrl = `${request.nextUrl.origin}/s/${shortId}`;
 
         return NextResponse.json({
