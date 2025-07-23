@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
@@ -9,6 +9,8 @@ export default function UrlShortener() {
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "success" | "error">("idle");
+  const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const isValidUrl = (urlString: string) => {
@@ -75,13 +77,17 @@ export default function UrlShortener() {
     }
   };
 
-  const handleCopy = () => {
-    if (shortUrl) {
-      navigator.clipboard.writeText(shortUrl);
-      toast({
-        title: "Copied to clipboard!",
-        description: "Your short URL is copied and ready to share",
-      });
+  const handleCopy = async () => {
+    if (shortUrl && inputRef.current) {
+      try {
+        await navigator.clipboard.writeText(shortUrl);
+        inputRef.current.select();
+        setCopyStatus("success");
+        setTimeout(() => setCopyStatus("idle"), 2000);
+      } catch (error) {
+        setCopyStatus("error");
+        setTimeout(() => setCopyStatus("idle"), 2000);
+      }
     }
   };
 
@@ -117,18 +123,23 @@ export default function UrlShortener() {
           <h3 className="text-lg font-semibold mb-2">Your shortened URL</h3>
           <div className="flex flex-col sm:flex-row gap-3">
             <Input
+              ref={inputRef}
               value={shortUrl}
               readOnly
               className="flex-1 font-medium"
             />
             <div className="flex gap-2">
               <Button 
-                variant="gradient" 
+                variant={copyStatus === "error" ? "destructive" : "gradient"}
                 size="default" 
                 onClick={handleCopy}
-                className="min-w-[100px]"
+                className={`min-w-[100px] transition-all ${
+                  copyStatus === "success" ? "bg-green-600 hover:bg-green-700" : ""
+                }`}
               >
-                Copy
+                {copyStatus === "idle" && "Copy"}
+                {copyStatus === "success" && "Copied! ✓"}
+                {copyStatus === "error" && "Try again"}
               </Button>
               <Button 
                 variant="outline" 
