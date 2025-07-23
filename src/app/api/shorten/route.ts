@@ -27,9 +27,10 @@ export async function POST(request: NextRequest) {
         // Save mapping to MongoDB
         const db = await getDb();
         await db.collection("urls").insertOne({
-            originalUrl: url,
             shortId,
+            originalUrl: url,
             createdAt: new Date(),
+            clicks: 0
         });
         const shortUrl = `${request.nextUrl.origin}/s/${shortId}`;
 

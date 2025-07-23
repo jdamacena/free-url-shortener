@@ -9,25 +9,21 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
   const { shortUrl } = await params;
   const db = await getDb();
 
-  // Validate that the shortUrl param is a valid ObjectId
-  if (!ObjectId.isValid(shortUrl)) {
-    return (
-      <div className="flex flex-col items-center p-8">
-        <h1 className="text-2xl font-bold">Not found</h1>
-        <p>Invalid link identifier.</p>
-      </div>
-    );
-  }
+  // Look up the URL by shortId
+  console.log('Looking up URL with shortId:', shortUrl);
+  
+  // First, let's check if the document exists
+  const doc = await db.collection("urls").findOne({ shortId: shortUrl });
+  console.log('Found document:', doc);
 
-  // Increment click count and retrieve the original URL by MongoDB _id
-  const objectId = new ObjectId(shortUrl);
   const result = await db.collection("urls").findOneAndUpdate(
-    { _id: objectId },
+    { shortId: shortUrl },
     { $inc: { clicks: 1 } },
     { returnDocument: "after" }
   );
+  console.log('Update result:', result);
 
-  if (!result || !result.value) {
+  if (!result) {
     return (
       <div className="flex flex-col items-center p-8">
         <h1 className="text-2xl font-bold">Not found</h1>
@@ -36,7 +32,7 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
     );
   }
 
-  const { originalUrl, clicks } = result.value;
+  const { originalUrl, clicks } = result;
 
   return (
     <div className="flex flex-col items-center space-y-4 p-8">
