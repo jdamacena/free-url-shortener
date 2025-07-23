@@ -1,5 +1,7 @@
 import { getDb } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+import { sanitizeShortId } from "@/lib/validation";
+import { headers } from "next/headers";
 
 interface RedirectPageProps {
   params: Promise<{ shortUrl: string }>;
@@ -7,13 +9,27 @@ interface RedirectPageProps {
 
 export default async function RedirectPage({ params }: RedirectPageProps) {
   const { shortUrl } = await params;
+  
+  // Sanitize the shortUrl to prevent injection attacks
+  const sanitizedShortUrl = sanitizeShortId(shortUrl);
+  
+  // If the sanitized URL is empty or different from the original, return 404
+  if (!sanitizedShortUrl || sanitizedShortUrl !== shortUrl) {
+    return (
+      <div className="flex flex-col items-center p-8">
+        <h1 className="text-2xl font-bold">Invalid URL</h1>
+        <p>The provided short URL is invalid.</p>
+      </div>
+    );
+  }
+
   const db = await getDb();
 
   // Look up the URL by shortId
-  console.log('Looking up URL with shortId:', shortUrl);
+  console.log('Looking up URL with shortId:', sanitizedShortUrl);
   
-  // First, let's check if the document exists
-  const doc = await db.collection("urls").findOne({ shortId: shortUrl });
+  // First, let's check if the document exists with the sanitized shortId
+  const doc = await db.collection("urls").findOne({ shortId: sanitizedShortUrl });
   console.log('Found document:', doc);
 
   const result = await db.collection("urls").findOneAndUpdate(

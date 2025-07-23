@@ -1,29 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
+import { validateAndSanitizeUrl, generateShortId } from "@/lib/validation";
 
 export async function POST(request: NextRequest) {
     try {
-        const { url } = await request.json();
-
-        if (!url) {
+        // Validate request content type
+        const contentType = request.headers.get('content-type');
+        if (!contentType?.includes('application/json')) {
             return NextResponse.json(
-                { error: "URL is required" },
-                { status: 400 }
+                { error: "Content-Type must be application/json" },
+                { status: 415 }
             );
         }
 
-        // Validate URL
+        let body;
         try {
-            new URL(url);
-        } catch {
+            body = await request.json();
+        } catch (e) {
             return NextResponse.json(
-                { error: "Invalid URL format" },
+                { error: "Invalid JSON payload" },
                 { status: 400 }
             );
         }
 
-        // Generate a mock short ID (in a real app, this would be stored in a database)
-        const shortId = Math.random().toString(36).substring(2, 8);
+        const { url } = body;
+
+        // Validate and sanitize URL
+        const validation = validateAndSanitizeUrl(url);
+        if (!validation.isValid) {
+            return NextResponse.json(
+                { error: validation.error },
+                { status: 400 }
+            );
+        }
+
+        // Generate a cryptographically secure short ID
+        const shortId = generateShortId();
         // Save mapping to MongoDB
         const db = await getDb();
         await db.collection("urls").insertOne({

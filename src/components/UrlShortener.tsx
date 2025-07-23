@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { validateAndSanitizeUrl } from "@/lib/validation";
 
 export default function UrlShortener() {
   const [url, setUrl] = useState("");
@@ -13,30 +14,14 @@ export default function UrlShortener() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
-  const isValidUrl = (urlString: string) => {
-    try {
-      return Boolean(new URL(urlString));
-    } catch (e) {
-      return false;
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!url) {
-      toast({
-        title: "URL is required",
-        description: "Please enter a URL to shorten",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!isValidUrl(url)) {
+    const validation = validateAndSanitizeUrl(url);
+    if (!validation.isValid) {
       toast({
         title: "Invalid URL",
-        description: "Please enter a valid URL including http:// or https://",
+        description: validation.error,
         variant: "destructive",
       });
       return;
