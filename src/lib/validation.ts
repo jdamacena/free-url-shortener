@@ -1,5 +1,3 @@
-import { URL } from 'url';
-
 export interface ValidationResult {
     isValid: boolean;
     sanitizedUrl?: string;
@@ -15,22 +13,37 @@ export function validateAndSanitizeUrl(input: string): ValidationResult {
         return { isValid: false, error: 'URL is required' };
     }
 
-    // Check if URL has a protocol, if not prepend https://
+    // Add protocol if missing
     if (!/^https?:\/\//i.test(url)) {
         url = `https://${url}`;
     }
 
     try {
+        // Basic URL format validation
+        if (!/^https?:\/\/[^\s/$.?#].[^\s]*$/i.test(url)) {
+            return { isValid: false, error: 'Invalid URL format. Example: https://www.google.com' };
+        }
+
         // Try to construct a URL object to validate the URL
-        const urlObject = new URL(url);
+        let urlObject: URL;
+        try {
+            urlObject = new URL(url);
+        } catch {
+            return { isValid: false, error: 'Invalid URL format. Please enter a valid URL like https://www.google.com' };
+        }
 
         // Check for allowed protocols
         if (!['http:', 'https:'].includes(urlObject.protocol)) {
             return { isValid: false, error: 'Only HTTP and HTTPS protocols are allowed' };
         }
 
-        // Block localhost and private IP addresses
+        // Ensure the hostname is not empty and has at least one dot
         const hostname = urlObject.hostname.toLowerCase();
+        if (!hostname || !hostname.includes('.')) {
+            return { isValid: false, error: 'Invalid domain format. Example: www.google.com' };
+        }
+
+        // Block localhost and private IP addresses
         if (
             hostname === 'localhost' ||
             hostname.endsWith('.local') ||
@@ -43,28 +56,26 @@ export function validateAndSanitizeUrl(input: string): ValidationResult {
             return { isValid: false, error: 'Local and private IP addresses are not allowed' };
         }
 
+        // Block common phishing keywords
+        const suspiciousKeywords = ['login', 'signin', 'account', 'password', 'banking', 'verify'];
+        if (suspiciousKeywords.some(keyword => hostname.includes(keyword))) {
+            return { isValid: false, error: 'This URL may be potentially harmful' };
+        }
+
         // Check minimum length
         if (url.length < 3) {
             return { isValid: false, error: 'URL is too short' };
         }
 
-        // Block common phishing keywords
-        const suspiciousKeywords = ['login', 'signin', 'account', 'password', 'banking', 'verify'];
-        if (suspiciousKeywords.some(keyword => urlObject.hostname.toLowerCase().includes(keyword))) {
-            return { isValid: false, error: 'This URL may be potentially harmful' };
-        }
-
-        // Check maximum length (e.g., 2048 characters is a common limit)
+        // Check maximum length
         if (url.length > 2048) {
             return { isValid: false, error: 'URL is too long (maximum 2048 characters)' };
         }
 
-        // Sanitize and normalize the URL
-        const sanitizedUrl = urlObject.toString();
-
-        return { isValid: true, sanitizedUrl };
+        // URL is valid, return the sanitized version
+        return { isValid: true, sanitizedUrl: urlObject.toString() };
     } catch (error) {
-        return { isValid: false, error: 'Invalid URL format' };
+        return { isValid: false, error: 'Invalid URL format. Please enter a valid URL like https://www.google.com' };
     }
 }
 
