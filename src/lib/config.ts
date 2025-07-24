@@ -121,7 +121,7 @@ export const config = {
             "Easy to share on social media",
             "Cleaner look for presentations",
             "Save character space in messages",
-            "Track clicks and engagement",
+            "Better QR codes, as there are fewer characters",
         ],
         faq: [], // Empty array to hide FAQ section
     },

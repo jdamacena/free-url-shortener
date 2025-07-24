@@ -34,7 +34,7 @@ const env = {
 
     /** Feature flags */
     features: {
-        analytics: process.env.ENABLE_ANALYTICS === "true",
+        analytics: process.env.ENABLE_ANALYTICS === "false",
         ads: process.env.ENABLE_ADS === "true",
         customDomains: process.env.ENABLE_CUSTOM_DOMAINS === "true",
     },

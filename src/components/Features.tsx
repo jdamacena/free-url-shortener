@@ -19,12 +19,12 @@ export default function Features() {
 
   // Optional features based on configuration
   const optionalFeatures = [
-    config.features.analytics && {
+    config.features.analytics.enabled && {
       icon: <BarChart className="w-10 h-10 text-secondary" />,
       title: "Simple Analytics",
       description: "See how your links are performing with our easy-to-understand click tracking."
     },
-    config.features.adSupported && {
+    config.features.adSupported.enabled && {
       icon: <Globe className="w-10 h-10 text-primary" />,
       title: "Free Forever",
       description: "Our ad-supported model means you'll never pay a cent to use our core shortening features."
