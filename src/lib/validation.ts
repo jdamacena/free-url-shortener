@@ -29,9 +29,29 @@ export function validateAndSanitizeUrl(input: string): ValidationResult {
             return { isValid: false, error: 'Only HTTP and HTTPS protocols are allowed' };
         }
 
+        // Block localhost and private IP addresses
+        const hostname = urlObject.hostname.toLowerCase();
+        if (
+            hostname === 'localhost' ||
+            hostname.endsWith('.local') ||
+            hostname.match(/^127\./) ||
+            hostname.match(/^192\.168\./) ||
+            hostname.match(/^10\./) ||
+            hostname.match(/^172\.(1[6-9]|2[0-9]|3[0-1])\./) ||
+            hostname.match(/^0\.0\.0\.0/)
+        ) {
+            return { isValid: false, error: 'Local and private IP addresses are not allowed' };
+        }
+
         // Check minimum length
         if (url.length < 3) {
             return { isValid: false, error: 'URL is too short' };
+        }
+
+        // Block common phishing keywords
+        const suspiciousKeywords = ['login', 'signin', 'account', 'password', 'banking', 'verify'];
+        if (suspiciousKeywords.some(keyword => urlObject.hostname.toLowerCase().includes(keyword))) {
+            return { isValid: false, error: 'This URL may be potentially harmful' };
         }
 
         // Check maximum length (e.g., 2048 characters is a common limit)

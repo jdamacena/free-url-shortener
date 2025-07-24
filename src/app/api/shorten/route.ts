@@ -4,12 +4,30 @@ import { validateAndSanitizeUrl, generateShortId } from "@/lib/validation";
 
 export async function POST(request: NextRequest) {
     try {
+        // Check request size (10kb limit)
+        const contentLength = parseInt(request.headers.get('content-length') || '0', 10);
+        if (contentLength > 10 * 1024) { // 10kb
+            return NextResponse.json(
+                { error: "Request too large" },
+                { status: 413 }
+            );
+        }
+
         // Validate request content type
         const contentType = request.headers.get('content-type');
         if (!contentType?.includes('application/json')) {
             return NextResponse.json(
                 { error: "Content-Type must be application/json" },
                 { status: 415 }
+            );
+        }
+
+        // Validate origin for CSRF protection
+        const origin = request.headers.get('origin');
+        if (origin && new URL(origin).hostname !== new URL(request.url).hostname) {
+            return NextResponse.json(
+                { error: "Invalid origin" },
+                { status: 403 }
             );
         }
 
