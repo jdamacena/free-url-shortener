@@ -118,11 +118,6 @@ export default function UrlShortener() {
                 className="flex-1"
                 required
               />
-              {previewUrl && (
-                <p className="text-sm text-muted-foreground mt-1 truncate">
-                  Will be shortened: {previewUrl}
-                </p>
-              )}
             </div>
             <Button 
               type="submit" 
