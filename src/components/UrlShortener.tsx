@@ -8,16 +8,39 @@ import { validateAndSanitizeUrl } from "@/lib/validation";
 
 export default function UrlShortener() {
   const [url, setUrl] = useState("");
+  const [previewUrl, setPreviewUrl] = useState("");
   const [shortUrl, setShortUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [copyStatus, setCopyStatus] = useState<"idle" | "success" | "error">("idle");
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
+  // Update preview URL as user types
+  const handleUrlChange = (input: string) => {
+    setUrl(input);
+    
+    // Clean up the input
+    let cleanInput = input.trim().toLowerCase();
+    
+    // Remove common prefixes if user pastes them
+    cleanInput = cleanInput
+      .replace(/^(https?:\/\/)?(www\.)?/i, '')
+      .replace(/\s+/g, '');
+    
+    // Show preview with https://
+    if (cleanInput) {
+      const preview = `https://${cleanInput}`;
+      setPreviewUrl(preview);
+    } else {
+      setPreviewUrl("");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const validation = validateAndSanitizeUrl(url);
+    // Use the preview URL for validation
+    const validation = validateAndSanitizeUrl(previewUrl);
     if (!validation.isValid) {
       toast({
         title: "Invalid URL",
@@ -36,7 +59,7 @@ export default function UrlShortener() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url: previewUrl }),
       });
 
       const data = await response.json();
@@ -84,24 +107,33 @@ export default function UrlShortener() {
   return (
     <div className="w-full max-w-2xl mx-auto">
       {!shortUrl ? (
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-          <Input
-            type="url"
-            placeholder="Paste your long URL here..."
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            className="flex-1"
-            required
-          />
-          <Button 
-            type="submit" 
-            variant="hero" 
-            size="lg"
-            disabled={isLoading}
-            className="min-w-[140px]"
-          >
-            {isLoading ? "Shortening..." : "Shorten URL"}
-          </Button>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex-1">
+              <Input
+                type="text"
+                placeholder="Type or paste your URL (e.g., google.com)"
+                value={url}
+                onChange={(e) => handleUrlChange(e.target.value)}
+                className="flex-1"
+                required
+              />
+              {previewUrl && (
+                <p className="text-sm text-muted-foreground mt-1 truncate">
+                  Will be shortened: {previewUrl}
+                </p>
+              )}
+            </div>
+            <Button 
+              type="submit" 
+              variant="hero" 
+              size="lg"
+              disabled={isLoading || !url.trim()}
+              className="min-w-[140px]"
+            >
+              {isLoading ? "Shortening..." : "Shorten URL"}
+            </Button>
+          </div>
         </form>
       ) : (
         <div className="mt-6 bg-card border border-border rounded-lg p-6 shadow-md">
