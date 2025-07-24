@@ -1,3 +1,6 @@
+import { blockedPatterns } from './blocked-domains';
+import { DOMAIN } from './constants';
+
 export interface ValidationResult {
     isValid: boolean;
     sanitizedUrl?: string;
@@ -32,6 +35,11 @@ export function validateAndSanitizeUrl(input: string): ValidationResult {
             return { isValid: false, error: 'Invalid URL format. Please enter a valid URL like https://www.google.com' };
         }
 
+        // Check if URL is from our own domain
+        if (urlObject.hostname === DOMAIN) {
+            return { isValid: false, error: 'Cannot shorten URLs that are already shortened by this service' };
+        }
+
         // Check for allowed protocols
         if (!['http:', 'https:'].includes(urlObject.protocol)) {
             return { isValid: false, error: 'Only HTTP and HTTPS protocols are allowed' };
@@ -54,6 +62,21 @@ export function validateAndSanitizeUrl(input: string): ValidationResult {
             hostname.match(/^0\.0\.0\.0/)
         ) {
             return { isValid: false, error: 'Local and private IP addresses are not allowed' };
+        }
+
+        // Check against blocked domains
+        if (blockedPatterns.domains.some((domain: string) => hostname === domain || hostname.endsWith(`.${domain}`))) {
+            return { isValid: false, error: 'This domain has been blocked for security reasons' };
+        }
+
+        // Check against blocked TLDs
+        if (blockedPatterns.tlds.some((tld: string) => hostname.endsWith(tld))) {
+            return { isValid: false, error: 'This domain extension is not allowed' };
+        }
+
+        // Check for blocked keywords in the hostname
+        if (blockedPatterns.keywords.some((keyword: string) => hostname.includes(keyword))) {
+            return { isValid: false, error: 'This domain contains blocked keywords' };
         }
 
         // Block common phishing keywords
