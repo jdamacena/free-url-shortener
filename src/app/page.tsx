@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 import heroBg from "@/assets/hero-bg.jpg";
 import { ToastButton } from "@/components/ToastButton";
+import { config } from "@/lib/config";
 
 export default function Page() {
   return (
@@ -32,8 +33,7 @@ export default function Page() {
               <span>for Free!</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Transform long URLs into short, shareable links instantly. 
-              No registration required.
+              {config.brand.description}
             </p>
             
             {/* URL Shortener Component */}
@@ -44,7 +44,7 @@ export default function Page() {
               <span className="mr-2">Example:</span>
               <span className="line-through">https://example.com/very/long/path/to/page?param=value&amp;another=123</span>
               <span className="mx-2">→</span>
-              <span className="font-medium text-foreground">linksnip.com/a1b2c3</span>
+              <span className="font-medium text-foreground">{config.brand.domain}/a1b2c3</span>
             </div>
           </div>
         </div>

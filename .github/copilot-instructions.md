@@ -1,10 +1,21 @@
 # Copilot Instructions
 
-You are assisting with a URL Shortener project built with:
+You are assisting with a white-label URL Shortener project built with:
 - Next.js
 - TypeScript
 - TailwindCSS
 - MongoDB
+
+## White-Label Configuration
+
+This is a white-label project where all branding and configuration is centralized in `src/lib/config.ts`. When making changes:
+
+1. Never hardcode brand-specific values in components
+2. All configurable values should be added to the config file
+3. Use conditional rendering for optional features
+4. Support empty/null values for optional configuration
+5. Document new configuration options
+6. Keep the config type-safe and well-documented
 
 ## Project Context
 

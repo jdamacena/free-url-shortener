@@ -1,6 +1,7 @@
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
+import { config } from "@/lib/config";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -12,24 +13,33 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Image src={logo} alt="LinkSnip Logo" width={32} height={32} className="h-8 w-auto" />
-              <span className="font-bold text-lg gradient-text">LinkSnip</span>
+              <span className="font-bold text-lg gradient-text">{config.brand.name}</span>
             </div>
             <p className="text-muted-foreground text-sm mb-4">
-              Making the web more accessible, one short link at a time.
+              {config.brand.slogan}
             </p>
+            {/* Social Media Links */}
             <div className="flex space-x-4">
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
+              {config.social.facebook && (
+                <a href={config.social.facebook} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <Facebook className="w-5 h-5" />
+                </a>
+              )}
+              {config.social.twitter && (
+                <a href={config.social.twitter} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <Twitter className="w-5 h-5" />
+                </a>
+              )}
+              {config.social.instagram && (
+                <a href={config.social.instagram} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <Instagram className="w-5 h-5" />
+                </a>
+              )}
+              {config.social.linkedin && (
+                <a href={config.social.linkedin} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              )}
             </div>
           </div>
           
@@ -65,7 +75,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {currentYear} LinkSnip. All rights reserved.</p>
+          <p>&copy; {currentYear} {config.brand.name}. All rights reserved.</p>
         </div>
       </div>
     </footer>

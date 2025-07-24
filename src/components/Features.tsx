@@ -1,7 +1,10 @@
 import { Zap, Shield, BarChart, Globe } from "lucide-react";
 
+import { config } from "@/lib/config";
+
 export default function Features() {
-  const features = [
+  // Base features that are always available
+  const baseFeatures = [
     {
       icon: <Zap className="w-10 h-10 text-accent" />,
       title: "Instant Shortening",
@@ -11,18 +14,24 @@ export default function Features() {
       icon: <Shield className="w-10 h-10 text-primary" />,
       title: "Secure & Reliable",
       description: "All links are securely processed and guaranteed to work reliably across all platforms."
-    },
-    {
+    }
+  ];
+
+  // Optional features based on configuration
+  const optionalFeatures = [
+    config.features.analytics && {
       icon: <BarChart className="w-10 h-10 text-secondary" />,
       title: "Simple Analytics",
       description: "See how your links are performing with our easy-to-understand click tracking."
     },
-    {
+    config.features.adSupported && {
       icon: <Globe className="w-10 h-10 text-primary" />,
       title: "Free Forever",
       description: "Our ad-supported model means you'll never pay a cent to use our core shortening features."
     }
-  ];
+  ].filter(Boolean);
+
+  const features = [...baseFeatures, ...optionalFeatures];
 
   return (
     <section id="features" className="py-16">

@@ -1,22 +1,20 @@
 import { Check } from "lucide-react";
+import { config } from "@/lib/config";
 
 export default function Benefits() {
-  const benefits = [
-    "Easy to share on social media",
-    "Cleaner look for presentations",
-    "Save character space in messages",
-    "Track clicks and engagement",
-    "No registration required",
-    "Works on all devices and platforms",
-    "Ad-supported to keep the service free",
-    "No hidden costs or premium features"
-  ];
+  // Use benefits from config, fallback to empty array
+  const benefits = [...(config.content.benefits || [])];
+
+  // Don't render if no benefits are configured
+  if (!benefits || benefits.length === 0) {
+    return null;
+  }
 
   return (
     <section id="benefits" className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Why Choose LinkSnip?</h2>
+          <h2 className="text-3xl font-bold mb-4">Why Choose {config.brand.name}?</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Our URL shortener provides numerous advantages for both casual users and professionals.
           </p>

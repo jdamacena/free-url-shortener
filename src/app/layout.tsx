@@ -9,9 +9,12 @@ import "@/index.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+import { config } from "@/lib/config";
+
 export const metadata: Metadata = {
-  title: "Free URL Shortener - Shorten Your Links for Free!",
-  description: "Transform long URLs into short, shareable links instantly. No registration required.",
+  title: config.seo.title,
+  description: config.seo.description,
+  keywords: config.seo.keywords.join(", "),
 };
 
 export default function RootLayout({
