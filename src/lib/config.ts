@@ -1,13 +1,22 @@
-import env from "./env";
+/**
+ * Validate required environment variables
+ */
+const requiredVars = [
+    "NEXT_PUBLIC_APP_NAME",
+    "NEXT_PUBLIC_APP_DOMAIN",
+    "NEXT_PUBLIC_APP_URL",
+    "MONGODB_URI",
+    "UPSTASH_REDIS_REST_URL",
+    "UPSTASH_REDIS_REST_TOKEN"
+] as const;
 
-/**    // Branding (can be overridden by environment variables)
-    brand: {
-        name: env.instance.name || "LinkSnip",
-        domain: env.instance.domain || "linksnip.com",
-        title: "Free URL Shortener",
-        description: "Transform long URLs into short, shareable links instantly. No registration required.",
-        slogan: "Making the web more accessible, one short link at a time.",
-    },bal configuration for the URL shortener application.
+for (const key of requiredVars) {
+    if (!process.env[key]) {
+        throw new Error(`Missing required environment variable: ${key}`);
+    }
+}
+
+/** Global configuration for the URL shortener application.
  * This is the central configuration file for white-labeling the application.
  * 
  * Configuration Hierarchy:
@@ -35,10 +44,22 @@ import env from "./env";
  * ```
  */
 export const config = {
+    // Infrastructure
+    infrastructure: {
+        database: {
+            uri: process.env.MONGODB_URI!,
+        },
+        redis: {
+            url: process.env.UPSTASH_REDIS_REST_URL!,
+            token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+        },
+    },
+
     // Branding
     brand: {
-        name: "Encurtador de links",
-        domain: "linksnip.com",
+        name: process.env.NEXT_PUBLIC_APP_NAME!,
+        domain: process.env.NEXT_PUBLIC_APP_DOMAIN!,
+        url: process.env.NEXT_PUBLIC_APP_URL!,
         title: "Free URL Shortener",
         description: "Transform long URLs into short, custom, shareable links instantly. No registration required.",
         slogan: "Making the web more accessible, one short link at a time.",
@@ -74,22 +95,22 @@ export const config = {
             enabled: true,
             maxUrlLength: 2048,
             customSlugs: false,
-            shortUrlLength: env.security.shortUrlLength,
+            shortUrlLength: Number(process.env.SHORT_URL_LENGTH) || 6,
         },
 
         // Optional Features (can be overridden by environment variables)
         analytics: {
-            enabled: env.features.analytics,
+            enabled: process.env.ENABLE_ANALYTICS === "true",
             publicStats: false,
             detailedMetrics: false,
         },
         adSupported: {
-            enabled: env.features.ads,
+            enabled: process.env.ENABLE_ADS === "true",
             skipDelay: 5, // seconds to wait before redirect
             position: "pre-redirect", // "pre-redirect" | "sidebar" | "banner"
         },
         customDomains: {
-            enabled: env.features.customDomains,
+            enabled: process.env.ENABLE_CUSTOM_DOMAINS === "true",
             allowList: [], // List of allowed domains
             maxDomainsPerUser: 1,
         },
@@ -100,8 +121,8 @@ export const config = {
 
         // Security settings (from environment)
         rateLimit: {
-            requests: env.security.rateLimit.requests,
-            windowMs: env.security.rateLimit.windowMs,
+            requests: Number(process.env.RATE_LIMIT_REQUESTS) || 10,
+            windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS) || 60000,
         },
     },    // Content Configuration (optional - set empty array to hide section)
     content: {
@@ -169,7 +190,7 @@ export const config = {
 
     // Contact Information (can be overridden by environment variables)
     contact: {
-        email: env.contact.supportEmail || "",
+        email: process.env.SUPPORT_EMAIL || "",
         website: "",
         address: "",
         phone: "",
