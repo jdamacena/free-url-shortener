@@ -1,37 +1,21 @@
-import { Zap, Shield, BarChart, Globe } from "lucide-react";
-
+import { Zap, Shield, BarChart, Globe, Link } from "lucide-react";
 import { config } from "@/lib/config";
 
 export default function Features() {
-  // Base features that are always available
-  const baseFeatures = [
-    {
-      icon: <Zap className="w-10 h-10 text-accent" />,
-      title: "Instant Shortening",
-      description: "Create short links in seconds with our lightning-fast URL shortening technology."
-    },
-    {
-      icon: <Shield className="w-10 h-10 text-primary" />,
-      title: "Secure & Reliable",
-      description: "All links are securely processed and guaranteed to work reliably across all platforms."
-    }
-  ];
+  // Map of icon names to components
+  const iconMap = {
+    Zap: <Zap className="w-10 h-10 text-accent" />,
+    Shield: <Shield className="w-10 h-10 text-primary" />,
+    Link: <Link className="w-10 h-10 text-secondary" />,
+    BarChart: <BarChart className="w-10 h-10 text-secondary" />,
+    Globe: <Globe className="w-10 h-10 text-primary" />
+  };
 
-  // Optional features based on configuration
-  const optionalFeatures = [
-    config.features.analytics.enabled && {
-      icon: <BarChart className="w-10 h-10 text-secondary" />,
-      title: "Simple Analytics",
-      description: "See how your links are performing with our easy-to-understand click tracking."
-    },
-    config.features.adSupported.enabled && {
-      icon: <Globe className="w-10 h-10 text-primary" />,
-      title: "Free Forever",
-      description: "Our ad-supported model means you'll never pay a cent to use our core shortening features."
-    }
-  ].filter((feature): feature is { icon: JSX.Element; title: string; description: string } => Boolean(feature));
-
-  const features = [...baseFeatures, ...optionalFeatures];
+  // Map the features from config and convert icon strings to components
+  const features = config.content.features.map(feature => ({
+    ...feature,
+    icon: iconMap[feature.icon as keyof typeof iconMap]
+  }));
 
   return (
     <section id="features" className="py-16">
