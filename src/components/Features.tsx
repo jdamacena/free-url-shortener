@@ -29,7 +29,7 @@ export default function Features() {
       title: "Free Forever",
       description: "Our ad-supported model means you'll never pay a cent to use our core shortening features."
     }
-  ].filter(Boolean);
+  ].filter((feature): feature is { icon: JSX.Element; title: string; description: string } => Boolean(feature));
 
   const features = [...baseFeatures, ...optionalFeatures];
 
