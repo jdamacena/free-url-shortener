@@ -1,5 +1,5 @@
 import { blockedPatterns } from './blocked-domains';
-import { DOMAIN } from './constants';
+import { config } from './config';
 
 export interface ValidationResult {
     isValid: boolean;
@@ -68,7 +68,7 @@ export function validateAndSanitizeUrl(input: string): ValidationResult {
         }
 
         // Check if URL is from our own domain
-        if (urlObject.hostname === DOMAIN) {
+        if (urlObject.hostname === new URL(config.brand.url).hostname) {
             return { isValid: false, error: 'Cannot shorten URLs that are already shortened by this service' };
         }
 
