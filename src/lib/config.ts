@@ -19,11 +19,11 @@ if (typeof window === 'undefined') {
         }
 
         // Only log public variables, mask sensitive ones
-        if (key.startsWith('NEXT_PUBLIC_')) {
-            console.log(`[Server] ${key}: ${process.env[key]}`);
-        } else {
-            console.log(`[Server] ${key}: ********`);
-        }
+        // if (key.startsWith('NEXT_PUBLIC_')) {
+        //     console.log(`[Server] ${key}: ${process.env[key]}`);
+        // } else {
+        //     console.log(`[Server] ${key}: ********`);
+        // }
     }
 }
 
