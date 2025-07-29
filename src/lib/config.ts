@@ -97,6 +97,11 @@ export const config = {
             customSlugs: false,
             shortUrlLength: Number(process.env.SHORT_URL_LENGTH) || 6,
         },
+        redirectPage: {
+            enabled: true,
+            timerDuration: Number(process.env.REDIRECT_TIMER_DURATION) || 15, // Duration in seconds
+            showAds: true,
+        },
 
         // Optional Features (can be overridden by environment variables)
         analytics: {

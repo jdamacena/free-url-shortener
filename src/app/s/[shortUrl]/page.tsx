@@ -2,6 +2,9 @@ import { getDb } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import { sanitizeShortId } from "@/lib/validation";
 import { headers } from "next/headers";
+import { LinkTimer } from "@/components/LinkTimer";
+import { config } from "@/lib/config";
+import { redirect } from "next/navigation";
 
 interface RedirectPageProps {
   params: Promise<{ shortUrl: string }>;
@@ -50,18 +53,31 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
 
   const { originalUrl, clicks } = result;
 
+  // If redirect page is disabled, redirect directly to the target URL
+  if (!config.features.redirectPage.enabled) {
+    redirect(originalUrl);
+  }
+
   return (
-    <div className="flex flex-col items-center space-y-4 p-8">
-      <h1 className="text-3xl font-bold">Redirecting...</h1>
-      <p className="text-gray-600">
-        Destination: <a href={originalUrl} className="text-blue-500 underline">{originalUrl}</a>
-      </p>
-      <a href={originalUrl}>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded">
-          Go Now
-        </button>
-      </a>
-      <p className="text-sm text-gray-500">This link has been clicked {clicks} times.</p>
+    <div className="flex flex-col min-h-screen">
+      {/* Top Section */}
+      <div className="text-center py-8 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+        <h1 className="text-3xl font-bold mb-2">Your Link is Being Generated</h1>
+        <p className="text-lg">Please wait while we prepare your link. It will be available at the bottom of this page.</p>
+      </div>
+
+      {/* Ad Space */}
+      <div className="flex-grow py-8">
+        <div className="container mx-auto">
+          <div className="bg-gray-100 p-4 rounded-lg text-center min-h-[300px]">
+            <p className="text-gray-600">Advertisement Space</p>
+            {/* Add your ad component or code here */}
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Section with Timer and Link */}
+      <LinkTimer originalUrl={originalUrl} clicks={clicks} />
     </div>
   );
 }
