@@ -8,6 +8,13 @@ import { useState } from "react";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  function handleScrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
   return (
     <header className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -42,7 +49,7 @@ export default function Header() {
           <a href="#features" className="text-foreground/80 hover:text-foreground transition-colors">Features</a>
           <a href="#how-it-works" className="text-foreground/80 hover:text-foreground transition-colors">How It Works</a>
           <a href="#benefits" className="text-foreground/80 hover:text-foreground transition-colors">Benefits</a>
-          <Button variant="gradient" size="default">Get Started</Button>
+          <Button variant="gradient" size="default" onClick={handleScrollToTop}>Get Started</Button>
         </nav>
       </div>
       
@@ -75,7 +82,7 @@ export default function Header() {
               variant="gradient" 
               size="default"
               className="w-full"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {setIsMenuOpen(false); handleScrollToTop()}}
             >
               Get Started
             </Button>
