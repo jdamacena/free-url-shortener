@@ -4,11 +4,12 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { validateAndSanitizeUrl } from "@/lib/validation";
+import { validateAndSanitizeUrl, validateCustomShortUrl } from "@/lib/validation";
 
 export default function UrlShortener() {
   const [url, setUrl] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
+  const [customUrl, setCustomUrl] = useState("");
   const [shortUrl, setShortUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [copyStatus, setCopyStatus] = useState<"idle" | "success" | "error">("idle");
@@ -50,6 +51,19 @@ export default function UrlShortener() {
       return;
     }
 
+    // Validate custom URL if provided
+    if (customUrl) {
+      const customValidation = validateCustomShortUrl(customUrl);
+      if (!customValidation.isValid) {
+        toast({
+          title: "Invalid Custom URL",
+          description: customValidation.error,
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     // Call the API to shorten the URL
     setIsLoading(true);
     
@@ -59,7 +73,10 @@ export default function UrlShortener() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url: previewUrl }),
+        body: JSON.stringify({ 
+          url: previewUrl,
+          customUrl: customUrl || undefined
+        }),
       });
 
       const data = await response.json();
@@ -101,6 +118,7 @@ export default function UrlShortener() {
 
   const handleReset = () => {
     setUrl("");
+    setCustomUrl("");
     setShortUrl(null);
   };
 
@@ -108,26 +126,44 @@ export default function UrlShortener() {
     <div className="w-full max-w-2xl mx-auto">
       {!shortUrl ? (
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex-1">
-              <Input
-                type="text"
-                placeholder="Type or paste your URL (e.g., google.com)"
-                value={url}
-                onChange={(e) => handleUrlChange(e.target.value)}
-                className="flex-1"
-                required
-              />
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex-1">
+                <Input
+                  type="text"
+                  placeholder="Type or paste your URL (e.g., google.com)"
+                  value={url}
+                  onChange={(e) => handleUrlChange(e.target.value)}
+                  className="flex-1"
+                  required
+                />
+              </div>
             </div>
-            <Button 
-              type="submit" 
-              variant="hero" 
-              size="lg"
-              disabled={isLoading || !url.trim()}
-              className="min-w-[140px]"
-            >
-              {isLoading ? "Shortening..." : "Shorten URL"}
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex-1">
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                    {window.location.origin}/s/
+                  </span>
+                  <Input
+                    type="text"
+                    placeholder="Custom URL (optional)"
+                    value={customUrl}
+                    onChange={(e) => setCustomUrl(e.target.value)}
+                    className="pl-[calc(1rem+180px)]"
+                  />
+                </div>
+              </div>
+              <Button 
+                type="submit" 
+                variant="hero" 
+                size="lg"
+                disabled={isLoading || !url.trim()}
+                className="min-w-[140px]"
+              >
+                {isLoading ? "Shortening..." : "Shorten URL"}
+              </Button>
+            </div>
           </div>
         </form>
       ) : (

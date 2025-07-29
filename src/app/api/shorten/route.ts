@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
-import { validateAndSanitizeUrl, generateShortId } from "@/lib/validation";
+import { validateAndSanitizeUrl, validateCustomShortUrl, generateShortId } from "@/lib/validation";
 
 export async function POST(request: NextRequest) {
     try {
@@ -41,31 +41,55 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const { url } = body;
+        const { url, customUrl } = body;
 
-        // Validate and sanitize URL
-        const validation = validateAndSanitizeUrl(url);
-        if (!validation.isValid) {
+        // Validate the target URL first
+        const urlValidation = validateAndSanitizeUrl(url);
+        if (!urlValidation.isValid) {
             return NextResponse.json(
-                { error: validation.error },
+                { error: urlValidation.error },
                 { status: 400 }
             );
         }
 
-        // Generate a cryptographically secure short ID
-        const shortId = generateShortId();
+        // If custom URL is provided, validate it
+        let shortId;
+        if (customUrl) {
+            const customValidation = validateCustomShortUrl(customUrl);
+            if (!customValidation.isValid) {
+                return NextResponse.json(
+                    { error: customValidation.error },
+                    { status: 400 }
+                );
+            }
+            shortId = customValidation.sanitizedUrl;
+
+            // Check if custom URL is already taken
+            const db = await getDb();
+            const existing = await db.collection('urls').findOne({ shortId });
+            if (existing) {
+                return NextResponse.json(
+                    { error: "This custom URL is already taken" },
+                    { status: 409 }
+                );
+            }
+        } else {
+            shortId = generateShortId();
+        }
+
         // Save mapping to MongoDB
         const db = await getDb();
         await db.collection("urls").insertOne({
             shortId,
-            originalUrl: url,
+            originalUrl: urlValidation.sanitizedUrl,
             createdAt: new Date(),
             clicks: 0
         });
+
         const shortUrl = `${request.nextUrl.origin}/s/${shortId}`;
 
         return NextResponse.json({
-            originalUrl: url,
+            originalUrl: urlValidation.sanitizedUrl,
             shortUrl,
             shortId,
         });

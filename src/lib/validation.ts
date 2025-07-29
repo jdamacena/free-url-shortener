@@ -7,6 +7,38 @@ export interface ValidationResult {
     error?: string;
 }
 
+export function validateCustomShortUrl(customUrl: string): ValidationResult {
+    // Trim whitespace
+    const cleaned = customUrl.trim().toLowerCase();
+
+    // Check if empty
+    if (!cleaned) {
+        return { isValid: false, error: 'Custom URL is required' };
+    }
+
+    // Check length (between 3 and 32 characters)
+    if (cleaned.length < 3 || cleaned.length > 32) {
+        return { isValid: false, error: 'Custom URL must be between 3 and 32 characters' };
+    }
+
+    // Only allow alphanumeric characters and hyphens
+    if (!/^[a-z0-9-]+$/.test(cleaned)) {
+        return { isValid: false, error: 'Custom URL can only contain letters, numbers, and hyphens' };
+    }
+
+    // Don't allow consecutive hyphens
+    if (cleaned.includes('--')) {
+        return { isValid: false, error: 'Custom URL cannot contain consecutive hyphens' };
+    }
+
+    // Don't allow starting or ending with hyphen
+    if (cleaned.startsWith('-') || cleaned.endsWith('-')) {
+        return { isValid: false, error: 'Custom URL cannot start or end with a hyphen' };
+    }
+
+    return { isValid: true, sanitizedUrl: cleaned };
+}
+
 export function validateAndSanitizeUrl(input: string): ValidationResult {
     // Trim whitespace
     let url = input.trim();
