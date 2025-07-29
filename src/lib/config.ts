@@ -40,14 +40,14 @@ export const config = {
         name: "Link Snip",
         domain: "linksnip.com",
         title: "Free URL Shortener",
-        description: "Transform long URLs into short, shareable links instantly. No registration required.",
+        description: "Transform long URLs into short, custom, shareable links instantly. No registration required.",
         slogan: "Making the web more accessible, one short link at a time.",
     },
 
     // SEO & Metadata
     seo: {
         title: "Free URL Shortener - Shorten Your Links for Free!",
-        description: "Transform long URLs into short, shareable links instantly. No registration required.",
+        description: "Transform long URLs into short, custom, shareable links instantly. No registration required.",
         keywords: ["url shortener", "link shortener", "free", "instant", "no registration"],
     },
 
@@ -115,6 +115,11 @@ export const config = {
                 title: "Secure & Reliable",
                 description: "All links are securely processed and guaranteed to work reliably across all platforms.",
                 icon: "Shield",
+            },
+            {
+                title: "Custom Short URLs",
+                description: "Create branded, memorable links that boost click-through rates and enhance brand recognition.",
+                icon: "Link",
             },
         ],
         benefits: [
