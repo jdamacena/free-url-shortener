@@ -10,9 +10,20 @@ const requiredVars = [
     "UPSTASH_REDIS_REST_TOKEN"
 ] as const;
 
-for (const key of requiredVars) {
-    if (!process.env[key]) {
-        throw new Error(`Missing required environment variable: ${key}`);
+// Only run environment validation on the server side
+if (typeof window === 'undefined') {
+    for (const key of requiredVars) {
+        if (!process.env[key]) {
+            console.error(`Environment variable ${key} is missing`);
+            throw new Error(`Missing required environment variable: ${key}`);
+        }
+
+        // Only log public variables, mask sensitive ones
+        if (key.startsWith('NEXT_PUBLIC_')) {
+            console.log(`[Server] ${key}: ${process.env[key]}`);
+        } else {
+            console.log(`[Server] ${key}: ********`);
+        }
     }
 }
 
