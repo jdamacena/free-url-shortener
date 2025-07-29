@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { config } from "@/lib/config";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { validateAndSanitizeUrl, validateCustomShortUrl } from "@/lib/validation";
@@ -143,7 +144,7 @@ export default function UrlShortener() {
               <div className="flex-1">
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
-                    {window.location.origin}/s/
+                    {`https://${config.brand.domain}/s/`}
                   </span>
                   <Input
                     type="text"
