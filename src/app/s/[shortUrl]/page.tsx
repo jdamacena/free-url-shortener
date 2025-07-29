@@ -1,7 +1,5 @@
 import { getDb } from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
 import { sanitizeShortId } from "@/lib/validation";
-import { headers } from "next/headers";
 import { LinkTimer } from "@/components/LinkTimer";
 import { config } from "@/lib/config";
 import { redirect } from "next/navigation";

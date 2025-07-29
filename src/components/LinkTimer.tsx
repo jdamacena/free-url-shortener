@@ -26,23 +26,19 @@ export function LinkTimer({ originalUrl, clicks }: LinkTimerProps) {
 
   return (
     <div className="bg-white border-t shadow-lg p-8">
-      <div className="max-w-2xl mx-auto text-center space-y-4">
-        <div className="text-2xl font-semibold mb-4">
+      <div className="max-w-2xl mx-auto text-center space-y-4 text-blue-600">
+        <div className={`text-2xl font-semibold mb-4 ${!isLinkVisible ? 'block' : 'hidden'}`}>
           <span>Your link will be available in: </span>
-          <span className="text-blue-600">{timeLeft}</span>
+          <span>{timeLeft}</span>
           <span> seconds</span>
         </div>
         
-        <div className={`transition-opacity duration-500 ${isLinkVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <p className="text-gray-600 mb-4">
-            Destination: <a href={originalUrl} className="text-blue-500 underline">{originalUrl}</a>
-          </p>
+        <div  className={`transition-opacity duration-500 ${isLinkVisible ? 'opacity-100' : 'opacity-10'} ${isLinkVisible ? 'block' : 'hidden'}`}>
           <a href={originalUrl}>
             <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
               Go to Your Link
             </button>
           </a>
-          <p className="text-sm text-gray-500 mt-4">This link has been clicked {clicks} times.</p>
         </div>
       </div>
     </div>
