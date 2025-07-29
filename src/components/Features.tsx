@@ -23,7 +23,7 @@ export default function Features() {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Powerful Features</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            LinkSnip offers everything you need for efficient URL shortening, with no complicated setup or hidden costs.
+            {config.brand.name} offers everything you need for efficient URL shortening, with no complicated setup or hidden costs.
           </p>
         </div>
 

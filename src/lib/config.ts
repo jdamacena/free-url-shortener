@@ -37,7 +37,7 @@ import env from "./env";
 export const config = {
     // Branding
     brand: {
-        name: "Link Snip",
+        name: "Encurtador de links",
         domain: "linksnip.com",
         title: "Free URL Shortener",
         description: "Transform long URLs into short, custom, shareable links instantly. No registration required.",
@@ -125,10 +125,38 @@ export const config = {
         benefits: [
             "Easy to share on social media",
             "Cleaner look for presentations",
+            "Custom URLs that gets more clicks",
             "Save character space in messages",
             "Better QR codes, as there are fewer characters",
         ],
         faq: [], // Empty array to hide FAQ section
+    },
+
+    // Footer Configuration
+    footer: {
+        sections: {
+            company: {
+                title: "Company",
+                links: [
+                    // Add links as needed
+                    // { label: "About Us", href: "/about" },
+                ]
+            },
+            resources: {
+                title: "Resources",
+                links: [
+                    // Add when API documentation is ready
+                    // { label: "API Documentation", href: "/docs/api" },
+                ]
+            },
+            legal: {
+                title: "Legal",
+                links: [
+                    { label: "Terms of Service", href: "/terms" },
+                    { label: "Privacy Policy", href: "/privacy" },
+                ]
+            }
+        }
     },
 
     // Social Media Links (optional - set to empty string or remove to hide)
