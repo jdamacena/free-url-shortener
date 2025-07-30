@@ -28,18 +28,18 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
   const db = await getDb();
 
   // Look up the URL by shortId
-  console.log('Looking up URL with shortId:', sanitizedShortUrl);
+  // console.log('Looking up URL with shortId:', sanitizedShortUrl);
   
   // First, let's check if the document exists with the sanitized shortId
   const doc = await db.collection("urls").findOne({ shortId: sanitizedShortUrl });
-  console.log('Found document:', doc);
+  // console.log('Found document:', doc);
 
   const result = await db.collection("urls").findOneAndUpdate(
     { shortId: shortUrl },
     { $inc: { clicks: 1 } },
     { returnDocument: "after" }
   );
-  console.log('Update result:', result);
+  // console.log('Update result:', result);
 
   if (!result) {
     return (
