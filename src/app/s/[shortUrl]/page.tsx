@@ -1,7 +1,8 @@
 import { getDb } from "@/lib/mongodb";
 import { sanitizeShortId } from "@/lib/validation";
 import { LinkTimer } from "@/components/LinkTimer";
-import { config } from "@/lib/config";
+import { config, googleAdsConfig } from "@/lib/config";
+import { GoogleAd } from "@/components/GoogleAd";
 import { redirect } from "next/navigation";
 
 interface RedirectPageProps {
@@ -68,8 +69,11 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
       <div className="flex-grow py-8">
         <div className="container mx-auto">
           <div className="bg-gray-100 p-4 rounded-lg text-center min-h-[300px]">
-            <p className="text-gray-600">Advertisement Space</p>
-            {/* Add your ad component or code here */}
+            {googleAdsConfig.enabled && googleAdsConfig.adSlots.redirectPage ? (
+              <GoogleAd slot={googleAdsConfig.adSlots.redirectPage} />
+            ) : (
+              <p className="text-gray-600">Advertisement Space</p>
+            )}
           </div>
         </div>
       </div>

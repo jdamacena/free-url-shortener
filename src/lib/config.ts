@@ -139,13 +139,13 @@ export const config = {
             enabled: false,
             downloadFormats: ["png", "svg"],
         },
-
         // Security settings (from environment)
         rateLimit: {
             requests: Number(process.env.RATE_LIMIT_REQUESTS) || 10,
             windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS) || 60000,
         },
-    },    // Content Configuration (optional - set empty array to hide section)
+    },
+    // Content Configuration (optional - set empty array to hide section)
     content: {
         features: [
             {
@@ -236,7 +236,23 @@ export const config = {
             primary: "linear-gradient(135deg, hsl(256 100% 65%), hsl(326 100% 65%))",
         },
     },
+
 } as const;
+
+/**
+ * Google Ads configuration
+ *
+ * @property enabled - Whether Google Ads are enabled
+ * @property clientId - Google AdSense client ID (e.g., 'ca-pub-xxxxxxxxxxxx')
+ * @property adSlots - Object containing ad slot IDs for different placements
+ */
+export const googleAdsConfig = {
+    enabled: true, // Set to true to enable ads
+    clientId: '',   // Your AdSense client ID
+    adSlots: {
+        redirectPage: '', // Ad slot ID for redirect page
+    },
+};
 
 /**
  * Cloudflare Analytics Token
