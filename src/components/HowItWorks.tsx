@@ -43,11 +43,6 @@ export default function HowItWorks() {
             </div>
           ))}
         </div>
-
-        <div className="hidden md:flex justify-center items-center mt-8">
-          <ArrowRight className="w-6 h-6 text-muted-foreground mx-4" />
-          <ArrowRight className="w-6 h-6 text-muted-foreground mx-4" />
-        </div>
       </div>
     </section>
   );
