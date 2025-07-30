@@ -131,33 +131,8 @@ export default function PrivacyPage() {
 
           <section className="mb-8">
             <h2>7. Your Privacy Rights</h2>
-            <p>Under applicable data protection laws, you have the following rights:</p>
-            
-            <h3 className="text-lg font-semibold mt-4">7.1. Access Rights:</h3>
-            <ul>
-              <li>Request access to your personal data</li>
-              <li>Obtain confirmation of data processing</li>
-              <li>Receive copies of your data</li>
-            </ul>
-
-            <h3 className="text-lg font-semibold mt-4">7.2. Control Rights:</h3>
-            <ul>
-              <li>Request correction of inaccurate data</li>
-              <li>Request deletion of your data</li>
-              <li>Withdraw consent for data processing</li>
-              <li>Object to data processing</li>
-            </ul>
-
-            <h3 className="text-lg font-semibold mt-4">7.3. Additional Rights:</h3>
-            <ul>
-              <li>Data portability (receive data in a structured format)</li>
-              <li>Lodge complaints with supervisory authorities</li>
-              <li>Not be subject to automated decision-making</li>
-            </ul>
-
-            <p className="mt-4">
-              To exercise these rights, please contact us using the information provided in the Contact section.
-              We will respond to your request within 30 days.
+            <p>
+              This service does not store personal data or associate shortened URLs with individual users. As a result, there is no personal data available for access, download, or portability. If you have questions about privacy or data handling, please contact us using the information provided in the Contact section.
             </p>
           </section>
 
