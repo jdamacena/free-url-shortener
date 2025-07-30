@@ -1,3 +1,6 @@
+"use client";
+
+import React, { useRef } from "react";
 import Header from "@/components/Header";
 import UrlShortener from "@/components/UrlShortener";
 import HowItWorks from "@/components/HowItWorks";
@@ -10,10 +13,10 @@ import heroBg from "@/assets/hero-bg.jpg";
 import { config } from "@/lib/config";
 
 export default function Page() {
+  const urlInputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      
+      <Header urlInputRef={urlInputRef} />
       {/* Hero Section */}
       <section className="relative pt-28 pb-20 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-10">
@@ -33,10 +36,8 @@ export default function Page() {
             <p className="text-xl text-muted-foreground mb-8">
               {config.brand.description}
             </p>
-            
             {/* URL Shortener Component */}
-            <UrlShortener />
-            
+            <UrlShortener urlInputRef={urlInputRef} />
             {/* Example */}
             <div className="mt-8 inline-flex items-center p-3 bg-muted/50 rounded-md text-sm text-muted-foreground">
               <span className="mr-2">Example:</span>
@@ -58,7 +59,7 @@ export default function Page() {
       <Benefits />
       
       {/* CTA Section */}
-      <Cta />
+      <Cta urlInputRef={urlInputRef} />
       
       {/* Footer */}
       <Footer />

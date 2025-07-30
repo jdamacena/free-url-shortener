@@ -1,14 +1,28 @@
 "use client";
 
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import React from "react";
 
-export default function Cta() {
+
+interface CtaProps {
+  /** Ref to the URL input element for focusing after scroll */
+  urlInputRef?: React.RefObject<HTMLInputElement>;
+}
+
+/**
+ * CTA section that scrolls to top and focuses the URL input.
+ * @param urlInputRef - Ref to the URL input element for focusing.
+ */
+export default function Cta({ urlInputRef }: CtaProps) {
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
+    // Focus the URL input if ref is provided
+    urlInputRef?.current?.focus();
   };
 
   return (

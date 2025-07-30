@@ -6,7 +6,11 @@ import logo from "@/assets/logo.png";
 import { useState } from "react";
 import { config } from "@/lib/config";
 
-export default function Header() {
+interface HeaderProps {
+  urlInputRef?: React.RefObject<HTMLInputElement>;
+}
+
+export default function Header({ urlInputRef }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleScrollToTop() {
@@ -14,6 +18,7 @@ export default function Header() {
       top: 0,
       behavior: "smooth"
     });
+    urlInputRef?.current?.focus();
   }
 
   return (

@@ -1,20 +1,24 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { config } from "@/lib/config";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { validateAndSanitizeUrl, validateCustomShortUrl } from "@/lib/validation";
 
-export default function UrlShortener() {
+
+interface UrlShortenerProps {
+  urlInputRef: React.RefObject<HTMLInputElement>;
+}
+
+export default function UrlShortener({ urlInputRef }: UrlShortenerProps) {
   const [url, setUrl] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
   const [customUrl, setCustomUrl] = useState("");
   const [shortUrl, setShortUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [copyStatus, setCopyStatus] = useState<"idle" | "success" | "error">("idle");
-  const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   // Update preview URL as user types
@@ -104,10 +108,10 @@ export default function UrlShortener() {
   };
 
   const handleCopy = async () => {
-    if (shortUrl && inputRef.current) {
+    if (shortUrl && urlInputRef.current) {
       try {
         await navigator.clipboard.writeText(shortUrl);
-        inputRef.current.select();
+        urlInputRef.current.select();
         setCopyStatus("success");
         setTimeout(() => setCopyStatus("idle"), 2000);
       } catch (error) {
@@ -137,6 +141,7 @@ export default function UrlShortener() {
                   onChange={(e) => handleUrlChange(e.target.value)}
                   className="flex-1"
                   required
+                  ref={urlInputRef}
                 />
               </div>
             </div>
@@ -172,7 +177,7 @@ export default function UrlShortener() {
           <h3 className="text-lg font-semibold mb-2">Your shortened URL</h3>
           <div className="flex flex-col sm:flex-row gap-3">
             <Input
-              ref={inputRef}
+              ref={urlInputRef}
               value={shortUrl}
               readOnly
               className="flex-1 font-medium"
