@@ -38,8 +38,8 @@ export default function Page() {
             </p>
             {/* URL Shortener Component */}
             <UrlShortener urlInputRef={urlInputRef} />
-            {/* Example */}
-            <div className="mt-8 inline-flex items-center p-3 bg-muted/50 rounded-md text-sm text-muted-foreground">
+            {/* Example (hidden on mobile) */}
+            <div className="mt-8 hidden md:inline-flex items-center p-3 bg-muted/50 rounded-md text-sm text-muted-foreground">
               <span className="mr-2">Example:</span>
               <span className="line-through">https://example.com/very/long/path/to/page?param=value&amp;another=123</span>
               <span className="mx-2">→</span>
