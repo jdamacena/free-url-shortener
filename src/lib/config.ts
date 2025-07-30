@@ -29,6 +29,11 @@ if (typeof window === 'undefined') {
 
 /** Global configuration for the URL shortener application.
  * This is the central configuration file for white-labeling the application.
+ *
+ * Analytics:
+ * - To enable Cloudflare Web Analytics, set NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN in your .env.local file.
+ * - The token will be injected into all user-facing pages if present.
+ * - See https://www.cloudflare.com/web-analytics/ for details.
  * 
  * Configuration Hierarchy:
  * 1. Environment Variables (highest priority, override config.ts)
@@ -232,6 +237,13 @@ export const config = {
         },
     },
 } as const;
+
+/**
+ * Cloudflare Analytics Token
+ * If set, enables Cloudflare Web Analytics on all user-facing pages.
+ * @see https://www.cloudflare.com/web-analytics/
+ */
+export const cloudflareAnalyticsToken: string | undefined = process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
 
 // Type for the config object
 export type Config = typeof config;
