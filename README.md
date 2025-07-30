@@ -78,12 +78,39 @@ src/
 - npm or yarn package manager
 - Git
 
+
 ### Environment Setup
 
-1. Create a `.env.local` file in the root directory:
+1. Copy `.env.example` to `.env.local` and fill in your values. All configuration is centralized in `src/lib/config.ts` for white-label support. Example:
    ```env
-   MONGODB_URI=your_mongodb_connection_string
-   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   # Database Configuration
+   MONGODB_URI=mongodb://localhost:27017/<your_db_name>
+
+   # Redis Configuration
+   UPSTASH_REDIS_REST_URL="https://your-upstash-url"
+   UPSTASH_REDIS_REST_TOKEN="your-upstash-token"
+
+   # Instance Configuration
+   NEXT_PUBLIC_APP_NAME="YourAppName"           # Your branded app name
+   NEXT_PUBLIC_APP_DOMAIN="localhost:3000"
+   NEXT_PUBLIC_APP_URL="http://localhost:3000"
+   DOMAIN="http://localhost:3000"
+
+   # Security Settings
+   RATE_LIMIT_REQUESTS=10
+   RATE_LIMIT_WINDOW_MS=60000
+   SHORT_URL_LENGTH=6
+
+   # Feature Flags
+   ENABLE_ANALYTICS=true
+   ENABLE_ADS=true
+   ENABLE_CUSTOM_DOMAINS=false
+
+   # Cloudflare Analytics Token
+   NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN=your-cloudflare-token
+
+   # Contact Information
+   SUPPORT_EMAIL="support@example.com"
    ```
 
 2. **Clone the repository**
@@ -92,17 +119,17 @@ src/
    cd <YOUR_PROJECT_NAME>
    ```
 
-2. **Install dependencies**
+3. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. **Start the development server**
+4. **Start the development server**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser**
+5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 📦 Available Scripts
@@ -142,13 +169,53 @@ This project is built with:
 
 ## 🌐 Deployment Guide
 
+
 ### Environment Variables
 
-Before deploying, make sure to set up the following environment variables:
+Below are all supported environment variables. Copy these to your `.env.local` and adjust as needed:
 
-```env
-MONGODB_URI=your_mongodb_connection_string
-NEXT_PUBLIC_APP_URL=your_app_url
+
+#### Database Configuration
+```
+MONGODB_URI=mongodb://localhost:27017/<your_db_name>
+```
+
+#### Redis Configuration
+```
+UPSTASH_REDIS_REST_URL="https://your-upstash-url"
+UPSTASH_REDIS_REST_TOKEN="your-upstash-token"
+```
+
+#### Instance Configuration
+```
+NEXT_PUBLIC_APP_NAME="YourAppName"           # Your branded app name
+NEXT_PUBLIC_APP_DOMAIN="localhost:3000"
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+DOMAIN="http://localhost:3000"
+```
+
+#### Security Settings
+```
+RATE_LIMIT_REQUESTS=10
+RATE_LIMIT_WINDOW_MS=60000
+SHORT_URL_LENGTH=6
+```
+
+#### Feature Flags
+```
+ENABLE_ANALYTICS=true
+ENABLE_ADS=true
+ENABLE_CUSTOM_DOMAINS=false
+```
+
+#### Cloudflare Analytics Token
+```
+NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN=your-cloudflare-token
+```
+
+#### Contact Information
+```
+SUPPORT_EMAIL="support@example.com"
 ```
 
 ### Deployment Options
@@ -190,15 +257,5 @@ NEXT_PUBLIC_APP_URL=your_app_url
 
 1. Set up your custom domain (if using)
 2. Configure SSL certificates
-3. Set up monitoring and analytics
-4. Test the API endpoints
-5. Monitor rate limiting and performance
-
-### Scaling Considerations
-
-- Use caching for frequently accessed URLs
-- Consider implementing a CDN
-- Monitor database performance
-- Set up proper logging and error tracking
 
 Yes, you can!
