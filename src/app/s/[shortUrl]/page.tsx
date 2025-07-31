@@ -30,18 +30,9 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
   // Look up the URL by shortId
   // console.log('Looking up URL with shortId:', sanitizedShortUrl);
   
-  // First, let's check if the document exists with the sanitized shortId
+  // Only fetch the document, do not increment clicks here
   const doc = await db.collection("urls").findOne({ shortId: sanitizedShortUrl });
-  // console.log('Found document:', doc);
-
-  const result = await db.collection("urls").findOneAndUpdate(
-    { shortId: shortUrl },
-    { $inc: { clicks: 1 } },
-    { returnDocument: "after" }
-  );
-  // console.log('Update result:', result);
-
-  if (!result) {
+  if (!doc) {
     return (
       <div className="flex flex-col items-center p-8">
         <h1 className="text-2xl font-bold">Not found</h1>
@@ -50,7 +41,7 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
     );
   }
 
-  const { originalUrl, clicks } = result;
+  const { originalUrl, clicks } = doc;
 
   // If redirect page is disabled, redirect directly to the target URL
   if (!config.features.redirectPage.enabled) {
@@ -79,7 +70,7 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
       </div>
 
       {/* Bottom Section with Timer and Link */}
-      <LinkTimer originalUrl={originalUrl} clicks={clicks} />
+      <LinkTimer originalUrl={originalUrl} clicks={clicks} shortId={sanitizedShortUrl} />
     </div>
   );
 }
