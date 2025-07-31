@@ -1,3 +1,4 @@
+"use client";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
@@ -10,12 +11,37 @@ import "@/index.css";
 const inter = Inter({ subsets: ["latin"] });
 
 import { config } from "@/lib/config";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { trackFrontendEvent } from "@/lib/analytics/client";
 
-export const metadata: Metadata = {
-  title: config.seo.title,
-  description: config.seo.description,
-  keywords: config.seo.keywords.join(", "),
-};
+/**
+ * Tracks page views with extended analytics fields.
+ * Configurable via src/lib/config.ts for privacy and business needs.
+ */
+function AnalyticsTracker() {
+  const pathname = usePathname();
+  useEffect(() => {
+    // Collect referrer
+    const referrer = typeof document !== "undefined" ? document.referrer : undefined;
+    // Collect user agent
+    const userAgent = typeof navigator !== "undefined" ? navigator.userAgent : undefined;
+    // Collect query params
+    let query: Record<string, string> | undefined = undefined;
+    if (typeof window !== "undefined") {
+      query = Object.fromEntries(new URLSearchParams(window.location.search));
+    }
+    trackFrontendEvent({
+      type: "page_view",
+      pathname,
+      referrer,
+      userAgent,
+      query,
+      timestamp: Date.now(),
+    });
+  }, [pathname]);
+  return null;
+}
 
 export default function RootLayout({
   children,
@@ -28,6 +54,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ReactQueryProvider>
             <TooltipProvider>
+              <AnalyticsTracker />
               {children}
               <Toaster />
               <Sonner />
