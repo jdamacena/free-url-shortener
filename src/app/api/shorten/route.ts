@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 import { validateAndSanitizeUrl, validateCustomShortUrl, generateShortId } from "@/lib/validation";
+import { trackEvent } from "@/lib/analytics";
 
 export async function POST(request: NextRequest) {
     try {
@@ -87,6 +88,15 @@ export async function POST(request: NextRequest) {
         });
 
         const shortUrl = `${request.nextUrl.origin}/s/${shortId}`;
+
+        // Analytics: Track link creation event
+        trackEvent({
+            type: "link_created",
+            shortId,
+            originalUrl: urlValidation.sanitizedUrl,
+            customAlias: customUrl || null,
+            timestamp: Date.now(),
+        });
 
         return NextResponse.json({
             originalUrl: urlValidation.sanitizedUrl,
