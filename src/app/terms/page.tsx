@@ -1,5 +1,13 @@
 import { config } from "@/lib/config";
+import { generatePageMetadata } from "../metadata";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = generatePageMetadata(
+  `Terms of Service | ${config.brand.name}`,
+  `Terms of Service for ${config.brand.name} - Read our service terms and conditions.`,
+  "/terms"
+);
 
 export default function TermsPage() {
   return (

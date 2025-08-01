@@ -30,8 +30,8 @@ export default function Page() {
         <div className="container mx-auto px-4 relative z-1">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="gradient-text">Shorten Your Links</span>{" "}
-              <span>for Free!</span>
+              <span className="gradient-text">{config.brand.name}</span>{" "}
+              <span>- {config.brand.title}</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
               {config.brand.description}

@@ -6,14 +6,15 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ReactQueryProvider } from "@/components/providers/react-query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { defaultMetadata } from "./metadata";
 import "@/index.css";
-
-const inter = Inter({ subsets: ["latin"] });
-
 import { config } from "@/lib/config";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { trackFrontendEvent } from "@/lib/analytics/client";
+
+const inter = Inter({ subsets: ["latin"] });
+export const metadata: Metadata = defaultMetadata;
 
 /**
  * Tracks page views with extended analytics fields.

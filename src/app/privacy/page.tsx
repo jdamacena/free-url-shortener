@@ -1,5 +1,13 @@
 import { config } from "@/lib/config";
+import { generatePageMetadata } from "../metadata";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = generatePageMetadata(
+  `Privacy Policy | ${config.brand.name}`,
+  `Privacy Policy for ${config.brand.name} - Learn how we protect your data and respect your privacy.`,
+  "/privacy"
+);
 
 export default function PrivacyPage() {
   return (
