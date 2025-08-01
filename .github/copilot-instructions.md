@@ -28,8 +28,7 @@ This is a modern URL shortening service that aims to be fast, reliable, and secu
 
 ## User Interaction Guidelines
 
-- Always ask for confirmation before implementing changes unless explicitly requested
-- Provide analysis, suggestions, and code examples, if the change will be very impactiful, spanning through several files, provide a summay of the changes to be made and wait for user approval
+- Provide analysis, suggestions, and code examples, if the change will be very impactiful, spanning through several files, provide a summary of the changes to be made and wait for user approval
 - Feel free to browse to project files to understand the context
 
 ## Coding Standards

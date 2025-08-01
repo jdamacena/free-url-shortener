@@ -20,7 +20,7 @@ export default function TermsPage() {
             <h2>2. Description of Service</h2>
             <p>
               {config.brand.name} provides a URL shortening service that allows users to create shortened
-              versions of long URLs. The service is provided "as is" and "as available" without any warranties.
+              versions of long URLs. The service is provided &quot;as is&quot; and &quot;as available&quot; without any warranties.
             </p>
           </section>
 
@@ -80,7 +80,7 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2>6. Disclaimer of Warranties</h2>
             <p>
-              {config.brand.name} is provided on an "as is" and "as available" basis. We make no
+              {config.brand.name} is provided on an &quot;as is&quot; and &quot;as available&quot; basis. We make no
               warranties, expressed or implied, and hereby disclaim all warranties, including without
               limitation, implied warranties of merchantability, fitness for a particular purpose, or
               non-infringement.

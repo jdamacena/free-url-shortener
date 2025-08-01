@@ -1,7 +1,9 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import logo from "@/assets/logo.png";
 import { useState } from "react";
 import { config } from "@/lib/config";
@@ -24,10 +26,10 @@ export default function Header({ urlInputRef }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <Image src={logo} alt={`${config.brand.name} Logo`} className="h-10 w-auto" />
           <span className="font-bold text-xl gradient-text">{config.brand.name}</span>
-        </a>
+        </Link>
         
         {/* Mobile menu button */}
         <button 
