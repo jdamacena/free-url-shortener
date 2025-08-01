@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 import { sanitizeShortId } from "@/lib/validation";
 
-export async function POST(request: Request, { params }: { params: { shortId: string } }) {
-    const { shortId } = params;
+export async function POST(request: Request, { params }: { params: Promise<{ shortId: string }> }) {
+    const { shortId } = await params;
     const sanitizedShortId = sanitizeShortId(shortId);
     if (!sanitizedShortId || sanitizedShortId !== shortId) {
         return NextResponse.json({ error: "Invalid short URL" }, { status: 400 });
