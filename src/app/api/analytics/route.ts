@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     // Log error server-side only
+    console.error('Analytics API error:', error);
     return NextResponse.json({ error: 'Failed to track event' }, { status: 500 });
   }
 }

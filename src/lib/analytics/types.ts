@@ -1,6 +1,7 @@
 // Supported event types
 export type AnalyticsEventType =
     | 'site_visit'
+    | 'page_view'
     | 'link_created'
     | 'custom_link_created'
     | 'link_opened'

@@ -15,9 +15,9 @@ export class MongoDBAnalyticsProvider implements AnalyticsProvider {
             });
         } catch (err) {
             // Log error server-side only
-            if (process.env.NODE_ENV === 'development') {
-                console.error('MongoDB analytics error:', err);
-            }
+            console.error('MongoDB analytics error:', err);
+            // In production, you might want to send this to a monitoring service
+            // but don't expose database errors to the client
         }
     }
 }
