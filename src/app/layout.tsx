@@ -14,7 +14,6 @@ import { usePathname } from "next/navigation";
 import { trackFrontendEvent } from "@/lib/analytics/client";
 
 const inter = Inter({ subsets: ["latin"] });
-export const metadata: Metadata = defaultMetadata;
 
 /**
  * Tracks page views with extended analytics fields.
