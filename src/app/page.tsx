@@ -43,7 +43,7 @@ export default function Page() {
               <span className="mr-2">Example:</span>
               <span className="line-through">https://example.com/very/long/path/to/page?param=value&amp;another=123</span>
               <span className="mx-2">→</span>
-              <span className="font-medium text-foreground">{config.brand.domain}/a1b2c3</span>
+              <span className="font-medium text-foreground">{config.brand.domain}/s/a1b2c3</span>
             </div>
           </div>
         </div>
