@@ -54,10 +54,9 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Top Section */}
-      <div className="text-center py-8 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <h1 className="text-3xl font-bold mb-2">Your Link is Being Generated</h1>
-        <p className="text-lg">Please wait while we prepare your link. It will be available at the bottom of this page.</p>
+      {/* Top Section - Compact Navbar Style */}
+      <div className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white flex items-center justify-center h-12 shadow px-2 sm:px-0">
+        <span className="font-semibold text-base text-center w-full sm:w-auto">Your link is being generated. Please wait — it will appear at the bottom of the screen. 👇</span>
       </div>
 
       {/* Ad Space */}
