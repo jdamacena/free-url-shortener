@@ -50,6 +50,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-6752476269932874"></meta>
+      </head>
       <body className={inter.className}>
         <ThemeProvider>
           <ReactQueryProvider>
