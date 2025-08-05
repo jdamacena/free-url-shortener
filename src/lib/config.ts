@@ -111,9 +111,9 @@ export const config = {
             maxSlugLength: 32, // Maximum custom slug length
         },
         redirectPage: {
-            enabled: true,
-            timerDuration: 15, // Duration in seconds
-            showOnlyAfterXAccesses: 10,
+            enabled: process.env.REDIRECT_PAGE_ENABLED ? process.env.REDIRECT_PAGE_ENABLED === "true" : true,
+            timerDuration: Number(process.env.REDIRECT_PAGE_TIMER_DURATION) || 15, // Duration in seconds
+            showOnlyAfterXAccesses: Number(process.env.REDIRECT_PAGE_SHOW_ONLY_AFTER_X_ACCESSES) || 10,
         },
 
         // Optional Features (can be overridden by environment variables)
