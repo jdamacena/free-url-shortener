@@ -4,6 +4,7 @@ import { LinkTimer } from "@/components/LinkTimer";
 import { config, googleAdsConfig } from "@/lib/config";
 import { GoogleAd } from "@/components/GoogleAd";
 import { redirect } from "next/navigation";
+import Script from "next/script";
 
 interface RedirectPageProps {
   params: Promise<{ shortUrl: string }>;
@@ -54,7 +55,14 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <>
+      <Script 
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6752476269932874"
+        strategy="beforeInteractive"
+        crossOrigin="anonymous"
+        async
+      />
+      <div className="flex flex-col min-h-screen">
       {/* Top Section - Compact Navbar Style */}
       <div className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white flex items-center justify-center h-12 shadow px-2 sm:px-0">
         <span className="font-semibold text-base text-center w-full sm:w-auto">Your link is being generated. Please wait — it will appear at the bottom of the screen. 👇</span>
@@ -76,5 +84,6 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
       {/* Bottom Section with Timer and Link */}
       <LinkTimer originalUrl={originalUrl} clicks={clicks} shortId={sanitizedShortUrl} />
     </div>
+    </>
   );
 }
