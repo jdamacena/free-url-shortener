@@ -16,9 +16,12 @@ export function validateCustomShortUrl(customUrl: string): ValidationResult {
         return { isValid: false, error: 'Custom URL is required' };
     }
 
-    // Check length (between 3 and 32 characters)
-    if (cleaned.length < 3 || cleaned.length > 32) {
-        return { isValid: false, error: 'Custom URL must be between 3 and 32 characters' };
+    // Check length using config values
+    const minLength = config.features.shortening.minSlugLength;
+    const maxLength = config.features.shortening.maxSlugLength; 
+    
+    if (cleaned.length < minLength || cleaned.length > maxLength) {
+        return { isValid: false, error: `Custom URL must be between ${minLength} and ${maxLength} characters` };
     }
 
     // Only allow alphanumeric characters and hyphens
@@ -122,9 +125,10 @@ export function validateAndSanitizeUrl(input: string): ValidationResult {
             return { isValid: false, error: 'URL is too short' };
         }
 
-        // Check maximum length
-        if (url.length > 2048) {
-            return { isValid: false, error: 'URL is too long (maximum 2048 characters)' };
+        // Check maximum length using config value
+        const maxLength = config.features.shortening.maxUrlLength;
+        if (url.length > maxLength) {
+            return { isValid: false, error: `URL is too long (maximum ${maxLength} characters)` };
         }
 
         // URL is valid, return the sanitized version

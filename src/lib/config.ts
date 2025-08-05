@@ -112,6 +112,8 @@ export const config = {
             maxUrlLength: 2048,
             customSlugs: false,
             shortUrlLength: Number(process.env.SHORT_URL_LENGTH) || 6,
+            minSlugLength: 3, // Minimum custom slug length
+            maxSlugLength: 32, // Maximum custom slug length
         },
         redirectPage: {
             enabled: true,
