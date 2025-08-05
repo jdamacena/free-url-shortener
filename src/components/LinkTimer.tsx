@@ -11,7 +11,7 @@ interface LinkTimerProps {
 }
 
 export function LinkTimer({ originalUrl, clicks, shortId }: LinkTimerProps) {
-  const [timeLeft, setTimeLeft] = useState(config.features.redirectPage.timerDuration);
+  const [timeLeft, setTimeLeft] = useState<number>(config.features.redirectPage.timerDuration);
   const [isLinkVisible, setIsLinkVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
