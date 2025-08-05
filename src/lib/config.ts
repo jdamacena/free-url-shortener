@@ -249,8 +249,9 @@ export const config = {
  * @property adSlots - Object containing ad slot IDs for different placements
  */
 export const googleAdsConfig = {
-    enabled: process.env.NEXT_PUBLIC_GOOGLE_ADS_ENABLED === 'true',
-    clientId: process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID || 'ca-pub-6752476269932874',
+    enabled: 'false',
+    enabledScript: 'true',
+    clientId: 'ca-pub-6752476269932874',
     adSlots: {
         redirectPage: {
             primary: process.env.NEXT_PUBLIC_GOOGLE_ADS_REDIRECT_PRIMARY || '', // Main ad slot
