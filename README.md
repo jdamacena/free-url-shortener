@@ -106,9 +106,6 @@ src/
    ENABLE_ADS=true
    ENABLE_CUSTOM_DOMAINS=false
 
-   # Cloudflare Analytics Token
-   NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN=your-cloudflare-token
-
    # Contact Information
    SUPPORT_EMAIL="support@example.com"
    ```
@@ -206,11 +203,6 @@ SHORT_URL_LENGTH=6
 ENABLE_ANALYTICS=true
 ENABLE_ADS=true
 ENABLE_CUSTOM_DOMAINS=false
-```
-
-#### Cloudflare Analytics Token
-```
-NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN=your-cloudflare-token
 ```
 
 #### Contact Information

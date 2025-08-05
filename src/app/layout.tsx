@@ -64,15 +64,6 @@ export default function RootLayout({
             </TooltipProvider>
           </ReactQueryProvider>
         </ThemeProvider>
-        {/* Cloudflare Web Analytics */}
-        {process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN && (
-          <script
-            defer
-            src="https://static.cloudflareinsights.com/beacon.min.js"
-            data-cf-beacon={JSON.stringify({ token: process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN })}
-          />
-        )}
-        {/* End Cloudflare Web Analytics */}
       </body>
     </html>
   );
