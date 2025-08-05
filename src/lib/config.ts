@@ -117,8 +117,8 @@ export const config = {
         },
         redirectPage: {
             enabled: true,
-            timerDuration: Number(process.env.REDIRECT_TIMER_DURATION) || 15, // Duration in seconds
-            showAds: true,
+            timerDuration: 15, // Duration in seconds
+            showOnlyAfterXAccesses: 10,
         },
 
         // Optional Features (can be overridden by environment variables)

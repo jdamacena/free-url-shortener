@@ -45,10 +45,10 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
     );
   }
 
-  const { originalUrl, clicks } = result;
+  const { originalUrl, clicks, accesses } = result;
 
   // If redirect page is disabled, redirect directly to the target URL
-  if (!config.features.redirectPage.enabled) {
+  if (!config.features.redirectPage.enabled || accesses <= config.features.redirectPage.showOnlyAfterXAccesses) {
     redirect(originalUrl);
   }
 
