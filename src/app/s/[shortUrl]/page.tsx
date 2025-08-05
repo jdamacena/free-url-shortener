@@ -49,6 +49,7 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
 
   // If redirect page is disabled, redirect directly to the target URL
   if (!config.features.redirectPage.enabled || accesses <= config.features.redirectPage.showOnlyAfterXAccesses) {
+    await db.collection("urls").updateOne({ shortId: sanitizedShortUrl }, { $inc: { clicks: 1 } });
     redirect(originalUrl);
   }
 
