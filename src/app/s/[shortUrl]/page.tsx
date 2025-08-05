@@ -56,34 +56,92 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
 
   return (
     <>
-      <Script 
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6752476269932874"
-        strategy="beforeInteractive"
-        crossOrigin="anonymous"
-        async
-      />
-      <div className="flex flex-col min-h-screen">
-      {/* Top Section - Compact Navbar Style */}
-      <div className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white flex items-center justify-center h-12 shadow px-2 sm:px-0">
-        <span className="font-semibold text-base text-center w-full sm:w-auto">Your link is being generated. Please wait — it will appear at the bottom of the screen. 👇</span>
-      </div>
+      {/* Google Ads Script - Load once globally */}
+      {googleAdsConfig.enabled && googleAdsConfig.clientId && (
+        <Script 
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${googleAdsConfig.clientId}`}
+          strategy="beforeInteractive"
+          crossOrigin="anonymous"
+        />
+      )}
+      
+      <div className="flex flex-col min-h-screen bg-gray-50">
+        {/* Top Banner Ad - Above notification */}
+        {googleAdsConfig.enabled && googleAdsConfig.adSlots.redirectPage.banner && (
+          <div className="w-full bg-white border-b shadow-sm">
+            <div className="container mx-auto px-4 py-2">
+              <GoogleAd 
+                slot={googleAdsConfig.adSlots.redirectPage.banner} 
+                format="horizontal"
+                className="max-h-20"
+                style={{ maxHeight: "90px" }}
+              />
+            </div>
+          </div>
+        )}
 
-      {/* Ad Space */}
-      <div className="flex-grow py-8">
-        <div className="container mx-auto">
-          <div className="bg-gray-100 p-4 rounded-lg text-center min-h-[300px]">
-            {googleAdsConfig.enabled && googleAdsConfig.adSlots.redirectPage ? (
-              <GoogleAd slot={googleAdsConfig.adSlots.redirectPage} />
-            ) : (
-              <p className="text-gray-600">Advertisement Space</p>
-            )}
+        {/* Top Section - Compact Navbar Style */}
+        <div className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white flex items-center justify-center h-12 shadow px-2 sm:px-0">
+          <span className="font-semibold text-base text-center w-full sm:w-auto">
+            Your link is being generated. Please wait — it will appear at the bottom of the screen. 👇
+          </span>
+        </div>
+
+        {/* Main Content Area */}
+        <div className="flex-grow py-8">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-[400px]">
+              
+              {/* Primary Ad Space - Left/Top */}
+              <div className="lg:col-span-2 order-2 lg:order-1">
+                <div className="bg-white p-6 rounded-lg shadow-sm border min-h-[350px] flex items-center justify-center">
+                  {googleAdsConfig.enabled && googleAdsConfig.adSlots.redirectPage.primary ? (
+                    <GoogleAd 
+                      slot={googleAdsConfig.adSlots.redirectPage.primary}
+                      className="w-full h-full min-h-[300px]"
+                      style={{ minHeight: "300px" }}
+                    />
+                  ) : (
+                    <div className="text-center text-gray-500">
+                      <p className="text-lg mb-2">Primary Advertisement Space</p>
+                      <p className="text-sm">Configure your Google Ads slot in the config</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Secondary Ad Space - Right/Bottom */}
+              <div className="lg:col-span-1 order-1 lg:order-2">
+                <div className="bg-white p-4 rounded-lg shadow-sm border min-h-[350px] flex items-center justify-center">
+                  {googleAdsConfig.enabled && googleAdsConfig.adSlots.redirectPage.secondary ? (
+                    <GoogleAd 
+                      slot={googleAdsConfig.adSlots.redirectPage.secondary}
+                      className="w-full h-full min-h-[300px]"
+                      style={{ minHeight: "300px" }}
+                    />
+                  ) : (
+                    <div className="text-center text-gray-500">
+                      <p className="text-base mb-2">Secondary Ad Space</p>
+                      <p className="text-xs">Side advertisement</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Content or Information */}
+            <div className="mt-6 bg-white p-4 rounded-lg shadow-sm border">
+              <div className="text-center text-gray-600 text-sm">
+                <p className="mb-2">🔒 Your link is being securely processed</p>
+                <p>This page helps support our free service through advertisements</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Section with Timer and Link */}
-      <LinkTimer originalUrl={originalUrl} clicks={clicks} shortId={sanitizedShortUrl} />
-    </div>
+        {/* Bottom Section with Timer and Link */}
+        <LinkTimer originalUrl={originalUrl} clicks={clicks} shortId={sanitizedShortUrl} />
+      </div>
     </>
   );
 }

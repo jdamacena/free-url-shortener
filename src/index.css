@@ -147,4 +147,41 @@ All colors MUST be HSL.
   .transition-all {
     transition: all 0.3s ease;
   }
+
+  /* Google Ads Optimizations */
+  .ad-container {
+    @apply w-full h-auto overflow-hidden;
+  }
+  
+  .ad-container ins.adsbygoogle {
+    @apply w-full block;
+    min-height: 250px;
+  }
+  
+  /* Responsive ad sizing */
+  @media (max-width: 768px) {
+    .ad-container ins.adsbygoogle {
+      min-height: 200px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ad-container ins.adsbygoogle {
+      min-height: 150px;
+    }
+  }
+  
+  /* Ad loading state */
+  .ad-container::before {
+    content: "";
+    @apply block w-full bg-gray-100 animate-pulse rounded;
+    min-height: 250px;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  /* Hide loading state when ad is loaded */
+  .ad-container ins.adsbygoogle[data-ad-status="filled"]::before {
+    display: none;
+  }
 }

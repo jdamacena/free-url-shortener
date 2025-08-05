@@ -249,10 +249,23 @@ export const config = {
  * @property adSlots - Object containing ad slot IDs for different placements
  */
 export const googleAdsConfig = {
-    enabled: true, // Set to true to enable ads
-    clientId: '',   // Your AdSense client ID
+    enabled: process.env.NEXT_PUBLIC_GOOGLE_ADS_ENABLED === 'true',
+    clientId: process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID || 'ca-pub-6752476269932874',
     adSlots: {
-        redirectPage: '', // Ad slot ID for redirect page
+        redirectPage: {
+            primary: process.env.NEXT_PUBLIC_GOOGLE_ADS_REDIRECT_PRIMARY || '', // Main ad slot
+            secondary: process.env.NEXT_PUBLIC_GOOGLE_ADS_REDIRECT_SECONDARY || '', // Secondary ad slot
+            banner: process.env.NEXT_PUBLIC_GOOGLE_ADS_REDIRECT_BANNER || '', // Banner ad slot
+        },
+        homepage: process.env.NEXT_PUBLIC_GOOGLE_ADS_HOMEPAGE || '',
+    },
+    displayRules: {
+        minViewportWidth: 320, // Minimum viewport width to show ads
+        responsiveBreakpoints: {
+            mobile: 768,
+            tablet: 1024,
+            desktop: 1200,
+        },
     },
 };
 
