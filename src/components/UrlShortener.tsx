@@ -149,7 +149,7 @@ export default function UrlShortener({ urlInputRef }: UrlShortenerProps) {
               <div className="flex-1">
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
-                    {`https://${config.brand.domain}/s/`}
+                    {`${config.brand.domain}/s/`}
                   </span>
                   <Input
                     type="text"
