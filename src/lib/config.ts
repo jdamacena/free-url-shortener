@@ -5,9 +5,7 @@ const requiredVars = [
     "NEXT_PUBLIC_APP_NAME",
     "NEXT_PUBLIC_APP_DOMAIN",
     "NEXT_PUBLIC_APP_URL",
-    "MONGODB_URI",
-    "UPSTASH_REDIS_REST_URL",
-    "UPSTASH_REDIS_REST_TOKEN"
+    "MONGODB_URI"
 ] as const;
 
 // Only run environment validation on the server side
@@ -17,13 +15,6 @@ if (typeof window === 'undefined') {
             console.error(`Environment variable ${key} is missing`);
             throw new Error(`Missing required environment variable: ${key}`);
         }
-
-        // Only log public variables, mask sensitive ones
-        // if (key.startsWith('NEXT_PUBLIC_')) {
-        //     console.log(`[Server] ${key}: ${process.env[key]}`);
-        // } else {
-        //     console.log(`[Server] ${key}: ********`);
-        // }
     }
 }
 
@@ -61,8 +52,9 @@ export const config = {
             uri: process.env.MONGODB_URI!,
         },
         redis: {
-            url: process.env.UPSTASH_REDIS_REST_URL!,
-            token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+            // Optional: leave empty to disable Redis-backed features like rate limiting
+            url: process.env.UPSTASH_REDIS_REST_URL || "",
+            token: process.env.UPSTASH_REDIS_REST_TOKEN || "",
         },
     },
 

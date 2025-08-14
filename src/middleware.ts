@@ -3,18 +3,23 @@ import type { NextRequest } from 'next/server'
 import { Redis } from '@upstash/redis'
 import { Ratelimit } from '@upstash/ratelimit'
 
-// Create Redis instance
-const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL || '',
-    token: process.env.UPSTASH_REDIS_REST_TOKEN || '',
-})
+// Create Redis instance only if credentials are present
+const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN)
+const redis = hasUpstash
+    ? new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL as string,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN as string,
+    })
+    : null
 
-// Create rate limiter instance - 20 requests per 10 seconds
-const ratelimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(20, '10 s'),
-    analytics: true,
-})
+// Create rate limiter instance - 20 requests per 10 seconds (optional)
+const ratelimit = redis
+    ? new Ratelimit({
+        redis,
+        limiter: Ratelimit.slidingWindow(20, '10 s'),
+        analytics: true,
+    })
+    : null
 
 export async function middleware(request: NextRequest) {
     // Get IP from various headers or default to 127.0.0.1
@@ -25,7 +30,7 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
 
     // Only apply rate limiting to API routes and URL redirects
-    if (pathname.startsWith('/api') || pathname.startsWith('/s/')) {
+    if ((pathname.startsWith('/api') || pathname.startsWith('/s/')) && ratelimit) {
         // Check rate limit
         const { success, limit, reset, remaining } = await ratelimit.limit(ip)
 
