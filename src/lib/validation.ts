@@ -144,10 +144,10 @@ export function sanitizeShortId(shortId: string): string {
 }
 
 export function generateShortId(): string {
-    // Generate a random string of 6 alphanumeric characters
+    // Generate a random string of alphanumeric characters
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let shortId = '';
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < config.features.shortening.shortUrlLength; i++) {
         shortId += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return shortId;

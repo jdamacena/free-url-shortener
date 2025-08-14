@@ -81,23 +81,11 @@ export const config = {
         maxLength: 2048, // Maximum allowed URL length
     },
 
-    // API Configuration
-    api: {
-        endpoints: {
-            shorten: "/api/shorten",
-        },
-        rateLimit: {
-            requestsPerMinute: 10,
-        },
-    },
-
     // Feature Configuration
     features: {
         // Core Features (required)
         shortening: {
-            enabled: true,
             maxUrlLength: 2048,
-            customSlugs: false,
             shortUrlLength: Number(process.env.SHORT_URL_LENGTH) || 6,
             minSlugLength: 3, // Minimum custom slug length
             maxSlugLength: 32, // Maximum custom slug length
@@ -107,28 +95,9 @@ export const config = {
             timerDuration: Number(process.env.REDIRECT_PAGE_TIMER_DURATION) || 15, // Duration in seconds
             showOnlyAfterXAccesses: Number(process.env.REDIRECT_PAGE_SHOW_ONLY_AFTER_X_ACCESSES) || 10,
         },
-
-        // Optional Features (can be overridden by environment variables)
         analytics: {
             enabled: process.env.ENABLE_ANALYTICS === "true",
-            publicStats: false,
-            detailedMetrics: false,
         },
-        adSupported: {
-            enabled: process.env.ENABLE_ADS === "true",
-            skipDelay: 5, // seconds to wait before redirect
-            position: "pre-redirect", // "pre-redirect" | "sidebar" | "banner"
-        },
-        customDomains: {
-            enabled: process.env.ENABLE_CUSTOM_DOMAINS === "true",
-            allowList: [], // List of allowed domains
-            maxDomainsPerUser: 1,
-        },
-        qrCodes: {
-            enabled: false,
-            downloadFormats: ["png", "svg"],
-        },
-        // Security settings (from environment)
         rateLimit: {
             requests: Number(process.env.RATE_LIMIT_REQUESTS) || 10,
             windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS) || 60000,
@@ -160,7 +129,6 @@ export const config = {
             "Save character space in messages",
             "Better QR codes, as there are fewer characters",
         ],
-        faq: [], // Empty array to hide FAQ section
     },
 
     // Footer Configuration
@@ -173,20 +141,24 @@ export const config = {
                     // { label: "About Us", href: "/about" },
                 ]
             },
-            resources: {
-                title: "Resources",
-                links: [
-                    // Add when API documentation is ready
-                    // { label: "API Documentation", href: "/docs/api" },
-                ]
-            },
             legal: {
                 title: "Legal",
                 links: [
                     { label: "Terms of Service", href: "/terms" },
                     { label: "Privacy Policy", href: "/privacy" },
                 ]
-            }
+            },
+            resources: {
+                title: "Resources",
+                links: [
+                    // Example
+                    // { label: "API Documentation", href: "/docs/api" },
+                    // Conditionally include GitHub link only when the env var is provided
+                    ...(process.env.NEXT_PUBLIC_GITHUB_PAGE
+                        ? [{ label: "View Source on Github", href: process.env.NEXT_PUBLIC_GITHUB_PAGE }]
+                        : []),
+                ]
+            },
         }
     },
 
@@ -201,17 +173,6 @@ export const config = {
     // Contact Information (can be overridden by environment variables)
     contact: {
         email: process.env.SUPPORT_EMAIL || "",
-        website: "",
-        address: "",
-        phone: "",
-    },
-
-    // Legal Links (optional - set to empty string or remove to hide)
-    legal: {
-        privacyPolicy: "",
-        termsOfService: "",
-        cookiePolicy: "",
-        disclaimer: "",
     },
 
     // Theme Configuration
@@ -236,9 +197,9 @@ export const config = {
  * @property adSlots - Object containing ad slot IDs for different placements
  */
 export const googleAdsConfig = {
-    enabled: 'false',
-    enabledScript: 'true',
-    clientId: 'ca-pub-6752476269932874',
+    enabled: process.env.NEXT_PUBLIC_GOOGLE_ADS_ENABLED === 'true',
+    enabledScript: process.env.NEXT_PUBLIC_GOOGLE_ADS_SCRIPT_ENABLED !== 'false',
+    clientId: process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID || '',
     adSlots: {
         redirectPage: {
             primary: process.env.NEXT_PUBLIC_GOOGLE_ADS_REDIRECT_PRIMARY || '', // Main ad slot

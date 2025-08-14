@@ -55,8 +55,8 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
 
   return (
     <>
-      {/* Google Ads Script - Load once globally */}
-      {googleAdsConfig.enabledScript && googleAdsConfig.clientId && (
+  {/* Google Ads Script - Load once globally */}
+  {googleAdsConfig.enabled && googleAdsConfig.enabledScript && googleAdsConfig.clientId && (
         <Script 
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${googleAdsConfig.clientId}`}
           strategy="beforeInteractive"

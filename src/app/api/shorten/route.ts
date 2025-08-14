@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 import { validateAndSanitizeUrl, validateCustomShortUrl, generateShortId } from "@/lib/validation";
 import { trackEvent } from "@/lib/analytics";
+import { config as appConfig } from "@/lib/config";
 
 export async function POST(request: NextRequest) {
     try {
@@ -87,16 +88,20 @@ export async function POST(request: NextRequest) {
             clicks: 0
         });
 
-        const shortUrl = `${request.nextUrl.origin}/s/${shortId}`;
+        const shortPath = appConfig.url.shortUrlPath || '/s';
+        const normalizedShortPath = shortPath.startsWith('/') ? shortPath : `/${shortPath}`;
+        const shortUrl = `${request.nextUrl.origin}${normalizedShortPath}/${shortId}`;
 
         // Analytics: Track link creation event
-        trackEvent({
-            type: "link_created",
-            shortId,
-            originalUrl: urlValidation.sanitizedUrl,
-            customAlias: customUrl || null,
-            timestamp: Date.now(),
-        });
+        if (appConfig.features.analytics.enabled) {
+            trackEvent({
+                type: "link_created",
+                shortId,
+                originalUrl: urlValidation.sanitizedUrl,
+                customAlias: customUrl || null,
+                timestamp: Date.now(),
+            });
+        }
 
         return NextResponse.json({
             originalUrl: urlValidation.sanitizedUrl,

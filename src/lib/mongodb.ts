@@ -1,10 +1,11 @@
 import { MongoClient, Db } from "mongodb";
+import { config as appConfig } from "@/lib/config";
 
-if (!process.env.MONGODB_URI) {
-    throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
+// Use central config as the single source of truth for DB URI
+const uri: string = appConfig.infrastructure.database.uri;
+if (!uri) {
+    throw new Error("Missing MongoDB URI in configuration (config.infrastructure.database.uri)");
 }
-
-const uri: string = process.env.MONGODB_URI;
 let cachedClient: MongoClient;
 let cachedDb: Db;
 
