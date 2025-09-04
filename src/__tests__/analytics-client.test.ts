@@ -35,7 +35,7 @@ describe('trackFrontendEvent', () => {
     (global.fetch as jest.Mock).mockRejectedValue(new Error('network')); 
     console.error = jest.fn();
 
-    await expect(trackFrontendEvent({ type: 'fail' })).resolves.not.toThrow();
+  await expect(trackFrontendEvent({ type: 'fail' })).resolves.toBeUndefined();
     expect(console.error).toHaveBeenCalledWith('Analytics tracking error:', expect.any(Error));
   });
 });
