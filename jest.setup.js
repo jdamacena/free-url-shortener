@@ -1,3 +1,5 @@
+// Load jest-dom matchers for React Testing Library
+require('@testing-library/jest-dom/extend-expect');
 // Minimal public envs for tests so config.ts doesn't throw
 process.env.NEXT_PUBLIC_APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'TestApp';
 process.env.NEXT_PUBLIC_APP_DOMAIN = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost:3000';

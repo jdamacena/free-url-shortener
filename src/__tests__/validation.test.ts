@@ -1,6 +1,6 @@
 /// <reference types="jest" />
-import { validateAndSanitizeUrl, validateCustomShortUrl, sanitizeShortId, generateShortId } from '@/lib/validation';
-import { config } from '@/lib/config';
+import { validateAndSanitizeUrl, validateCustomShortUrl, sanitizeShortId, generateShortId } from '../lib/validation';
+import { config } from '../lib/config';
 
 describe('validateCustomShortUrl', () => {
     test('rejects empty', () => {

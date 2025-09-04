@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/91fa9c69-c625-4ad2-b704-b3cbf3894652/deploy-status)](https://app.netlify.com/projects/mytinylink/deploys)
+
 # White‑Label URL Shortener (Next.js + TypeScript)
 
 Configurable, brandable URL shortener built with Next.js, TypeScript, TailwindCSS, and MongoDB. This codebase is structured for white‑label deployments and is kept live as a demo to showcase engineering practices and product thinking for portfolio purposes.

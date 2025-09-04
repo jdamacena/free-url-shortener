@@ -204,9 +204,6 @@ export default function UrlShortener({ urlInputRef }: UrlShortenerProps) {
               </Button>
             </div>
           </div>
-          <p className="text-sm text-muted-foreground mt-3">
-            This link will show an ad page before redirecting to your original URL.
-          </p>
         </div>
       )}
     </div>
